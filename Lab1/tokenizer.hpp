@@ -35,11 +35,13 @@ bool isNumber(const string& str)
 
 static bool isSymbol(const string& token) 
 {
+    //chekc symbol patern
     std::string pattern{"[a-zA-Z][0-9a-zA-Z]*"}; 
 	std::regex re(pattern);
-    bool ret = std::regex_match(token, re);
-    // cout<<ret<<endl;
-    return ret;
+    bool isSym = std::regex_match(token, re);
+    //check symbol length
+    bool checkSymLen = (token.length()< 16);
+    return isSym && checkSymLen;
 }
 
 bool isIAER(const string& token) 
@@ -52,12 +54,14 @@ bool isIAER(const string& token)
 class Tokenizer 
 {
     public:
-        vector<string> get_tokens(const string &str, const string &pattern);
-        void parse_tokens(vector<string> tokens);
+        void get_tokens(const std::string delim);
+        bool getToken();
+        void parse_tokens();
         void handle_parse_error(invalid_argument& e);
 
         int readInt();
         string readSymbol();
+        void createSymbol(string sym, int val);
         string readIAER();
     private:
         int line_num = 1;
@@ -68,58 +72,107 @@ class Tokenizer
         stringstream line_stream;
         istringstream str_stream;
         vector<string> tokens;
-        vector<int> poss;
-        string line;
         string token;
+        vector<int> poss;
+        string line_str;
+
+        int token_index;
+
+
     public:
         Tokenizer(string file_name); // create tokenizer for file_name
-        getLine();
-        getToken();
+        // getLine();
+        // getToken();
         void tokenize();
 };
 
-int Tokenizer::readInt()
-{
-
-}
-
-
-bool Tokenizer::getToken() 
-{
-    while (!(iss_ >> token_)) {
-        if (!loadline()) {
-            lineoffset_ = finalpos_;
-            return false;
-        }
-    }
-    lineoffset_ = static_cast<int>(iss_.tellg()) - static_cast<int>(token_.size()) + 1;
-    return true;
-}
-
-
-
-void Tokenizer::handle_parse_error(invalid_argument& e) 
-{
-    int line_num = 1;
-    int line_offset = 1; 
-    cout << "Parse Error line " << line_num << " offset " << line_offset << ": " << e.what() << endl;
-    return;
-}
 
 Tokenizer::Tokenizer(string file_name)
 {
     f_in.open(file_name);
 }
 
+
+void Tokenizer:: createSymbol(string sym, int val)
+{
+
+}
+
+bool Tokenizer::getToken()
+{
+    if(token_index < tokens.size())
+    {
+        token = tokens[token_index];
+        token_index += 1;
+        line_offset = poss[token_index];
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+int Tokenizer::readInt()
+{
+    if(getToken())
+    {
+        if(isNumber(token))
+        {
+            stringstream ss(token);
+            int num = 0;
+            ss >> num;
+            return num;
+        }
+        else
+        {
+            throw invalid_argument("NUM_EXPECTED");
+        }
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+string Tokenizer::readSymbol()
+{
+    if(getToken())
+    {
+        if(isSymbol(token))
+        {
+            return token;
+        }
+        else
+        {
+            throw invalid_argument("SYM_EXPECTED");
+        }
+    }
+    else
+    {
+        return "";
+    }
+}
+
+
+
+void Tokenizer::handle_parse_error(invalid_argument& e) 
+{
+    cout << "Parse Error line " << line_num << " offset " << line_offset << ": " << e.what() << endl;
+    return;
+}
+
+
+
 void Tokenizer::tokenize()
 {
     vector<string> tokens;
-    for(string line; getline(f_in,line);)
+    for(; getline(f_in,line_str);)
     {
-        tokens = get_tokens(line);
+        get_tokens(" ");
         try
         {
-            parse_tokens(tokens);
+            parse_tokens();
         }
         catch(invalid_argument& e) 
         {
@@ -135,22 +188,19 @@ void Tokenizer::tokenize()
 
 // void Tokenizer::
 
-void Tokenizer::parse_tokens(vector<string> tokens)
+void Tokenizer::parse_tokens()
 {
-    if(isNumber(tokens[0]) != true)
-    {
-        throw invalid_argument("NUM_EXPECTED");
-    }
+//    if(isNumber(tokens[0]) != true)
+//    {
+//        throw invalid_argument("NUM_EXPECTED");
+//    }
     // defNum convert to int
-    stringstream ss(tokens[0]);
-    int defNum = 0;
-    ss >> defNum;
-    cout<<defNum<< endl;
-    for (int i = 0; i < defNum; i++) 
+    int def_count = readInt();
+    for (int i = 0; i < def_count; i++)
     {
-        string sym = readSym();
-        int val = readInt(); 
-        createSymbol(sym,val);
+         string sym = readSymbol();
+         int val = readInt();
+         createSymbol(sym,val);
         // string symbol = tokenizer.read_symbol();
         // int rel_addr = tokenizer.read_int();
         // deflist.push_back(symbol);
@@ -163,35 +213,39 @@ void Tokenizer::parse_tokens(vector<string> tokens)
 }
 
 
+//void split(const std::string& str, std::vector<std::string>& tokens, const std::string delim = " ")
+//{
+//    tokens.clear();                                     //global private
+//    auto start = str.find_first_not_of(delim, 0);       // 分割到的字符串的第一个字符
+//    auto position = str.find_first_of(delim, start);    // 分隔符的位置
+//    string token;
+//    while (position != std::string::npos || start != std::string::npos) {
+//        // [start, position) 为分割下来的字符串
+//        token = str.substr(start, position - start);
+//        tokens.emplace_back(std::move(token));
+//        start = str.find_first_not_of(delim, position);
+//
+//        position = str.find_first_of(delim, start);
+//    }
+//}
 
-vector<string> Tokenizer::get_tokens(const string &str, const string &pattern)
+
+
+void Tokenizer::get_tokens(const std::string delim = " ")
 {
-    vector<string> tokens;
-    if(str == "")
-        return tokens;
-    string strs = str + pattern;
-    size_t pos = strs.find(pattern);
-    int offset = 1;
-    while(pos != strs.npos)
+    tokens.clear();                                     //global private
+    auto start = line_str.find_first_not_of(delim, 0);       // 分割到的字符串的第一个字符
+    auto position = line_str.find_first_of(delim, start);    // 分隔符的位置
+    string token;
+    while (position != std::string::npos || start != std::string::npos)
     {
-        string temp = strs.substr(0, pos);
-        tokens.push_back(temp);
-        strs = strs.substr(pos+1, strs.size());
-        pos = strs.find(pattern);
+        // [start, position)
+        token = line_str.substr(start, position - start);
+        cout<<"Token: "<<line_num<<":"<<start+1<<" : "<<token<<endl;
+        poss.push_back(start+1);
+        tokens.emplace_back(std::move(token));
+        start = line_str.find_first_not_of(delim, position);
+        position = line_str.find_first_of(delim, start);
     }
-    return tokens;
-    // int offset = 1;
-    // string temp_str;
-    // stringstream line_stream(line);
-    // vector <string> tokens;
-    // vector <int> offset;
-    // while(getline(line_stream, temp_str, ' '))
-    // {
-    //     tokens.push_back(temp_str);
-
-    //     offset.push_back(offset);
-
-    // }
-    // return tokens;
 }
 

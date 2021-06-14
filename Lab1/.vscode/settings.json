@@ -6,6 +6,7 @@
         "random": "cpp",
         "stdexcept": "cpp",
         "string": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "ostream": "cpp"
     }
 }

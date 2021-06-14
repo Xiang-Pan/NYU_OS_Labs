@@ -85,6 +85,9 @@
 		<Unit filename="/Users/xiangpan/manjaro/NYU_OS_Labs/Lab1/main.cpp">
 			<Option target="Lab1"/>
 		</Unit>
+		<Unit filename="/Users/xiangpan/manjaro/NYU_OS_Labs/Lab1/tokenizer.hpp">
+			<Option target="Lab1"/>
+		</Unit>
 		<Unit filename="/Users/xiangpan/manjaro/NYU_OS_Labs/Lab1/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

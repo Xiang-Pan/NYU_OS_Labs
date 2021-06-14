@@ -48,7 +48,7 @@ class Linker
 
 int main(int argc, const char * argv[]) 
 {
-    // cout<<argc<<endl;
+    cout<<argc<<endl;
     if(argc!=2)
     {
         cout<<"Expected argument after options"<<endl;
