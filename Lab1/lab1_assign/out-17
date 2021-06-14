@@ -1,1 +1,1 @@
-Parse Error line 7 offset 1: TOO_MANY_INSTR
+./runit.sh: line 93: ../linker: No such file or directory

@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/xiangpan/manjaro/NYU_OS_Labs/Lab1/main.cpp
+iostream
+-
+stdio.h
+-
+fstream
+-
+sstream
+-
+string
+-
+istream
+-
+vector
+-
+
