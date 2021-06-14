@@ -3,6 +3,9 @@
         "*.tcc": "cpp",
         "unordered_map": "cpp",
         "regex": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "stdexcept": "cpp",
+        "string": "cpp",
+        "sstream": "cpp"
     }
 }
