@@ -7,6 +7,7 @@
 #include <istream>
 #include <vector> 
 #include <regex>
+#include <map>
 using namespace std;
 
 // enum PARSE_ERROR_TYPE 
@@ -23,6 +24,7 @@ using namespace std;
 
 bool isNumber(const string& str)
 {
+    cout<<str<<endl;
     for (char const &c : str) 
     {
         if (std::isdigit(c) == 0) 
@@ -41,10 +43,18 @@ static bool isSymbol(const string& token)
     bool isSym = std::regex_match(token, re);
     //check symbol length
     bool checkSymLen = (token.length()< 16);
+    if(!isSym)
+    {
+        throw invalid_argument("SYM_EXPECTED");
+    }
+    if(!checkSymLen)
+    {
+        throw invalid_argument("SYM_TOO_LONG");
+    }
     return isSym && checkSymLen;
 }
 
-bool isIAER(const string& token) 
+bool isIEAR(const string& token) 
 {
     return token=="I" || token=="A" || token=="E" || token=="R";
 }
@@ -56,17 +66,28 @@ class Tokenizer
     public:
         void get_tokens(const std::string delim);
         bool getToken();
-        void parse_tokens();
+        void parse_tokens(int parse_mode);
         void handle_parse_error(invalid_argument& e);
 
         int readInt();
         string readSymbol();
-        void createSymbol(string sym, int val);
         string readIAER();
+        string readIEAR();
+
+
+        void createSymbol(string sym, int val);
     private:
         int line_num = 1;
         int line_offset = 1;
         int line_offset_end = 1;
+        int def_count_limit = 16;
+        int use_count_limit = 16;
+        int machine_memory_size = 512;
+        int module_num = 1;
+        int module_addr = 0;
+
+        vector<string> sym_list;
+        vector<int> sym_address;
 
         ifstream f_in;
         stringstream line_stream;
@@ -76,7 +97,12 @@ class Tokenizer
         vector<int> poss;
         string line_str;
 
-        int token_index;
+        int token_index = 0;
+        map<string,int> sym_table;
+        map<string,int>::iterator sym_table_iter;
+
+
+        
 
 
     public:
@@ -95,7 +121,20 @@ Tokenizer::Tokenizer(string file_name)
 
 void Tokenizer:: createSymbol(string sym, int val)
 {
-
+    sym_list.push_back(sym);
+    sym_address.push_back(val);
+    // check sym in sym_table
+    // map<sting,string>::iterator iter;
+    sym_table_iter = sym_table.find(sym);
+	if (sym_table_iter!= sym_table.end()) 
+    {
+        // sym in table alread
+		cout << "字典中有这个值" << endl;
+	}
+    else
+    {
+        sym_table[sym] = module_addr + val;
+    }
 }
 
 bool Tokenizer::getToken()
@@ -112,6 +151,28 @@ bool Tokenizer::getToken()
         return false;
     }
 }
+
+string Tokenizer::readIEAR()
+{
+    if(getToken())
+    {
+        if(isIEAR(token))
+        {
+            return token;
+        }
+        else
+        {
+            throw invalid_argument("ADDR_EXPECTED");
+        }
+    }
+    else
+    {
+        throw invalid_argument("ADDR_EXPECTED");
+        return "";
+    }
+}
+
+//bool Tokenizer::
 
 int Tokenizer::readInt()
 {
@@ -131,6 +192,7 @@ int Tokenizer::readInt()
     }
     else
     {
+        throw invalid_argument("NUM_EXPECTED");
         return -1;
     }
 }
@@ -145,7 +207,7 @@ string Tokenizer::readSymbol()
         }
         else
         {
-            throw invalid_argument("SYM_EXPECTED");
+            return "";
         }
     }
     else
@@ -153,7 +215,6 @@ string Tokenizer::readSymbol()
         return "";
     }
 }
-
 
 
 void Tokenizer::handle_parse_error(invalid_argument& e) 
@@ -166,19 +227,32 @@ void Tokenizer::handle_parse_error(invalid_argument& e)
 
 void Tokenizer::tokenize()
 {
-    vector<string> tokens;
+    bool eof = false;
     for(; getline(f_in,line_str);)
-    {
+    {   
+        //create module 
+        int mode = (line_num-1)%3;
         get_tokens(" ");
         try
         {
-            parse_tokens();
+            parse_tokens(mode);
         }
         catch(invalid_argument& e) 
         {
             handle_parse_error(e);
             return;
         }
+        //create sym table
+        if(mode == 2) // 
+        {
+            for(int i = 0; i < sym_list, i++)
+            {
+                string sym = sym_list[i] 
+                int addr = sym_address[i] 
+            }
+        } 
+
+
         line_num++;
         cout<< line_num <<endl;
     }
@@ -188,54 +262,69 @@ void Tokenizer::tokenize()
 
 // void Tokenizer::
 
-void Tokenizer::parse_tokens()
+void Tokenizer::parse_tokens(int parse_mode = 0)
 {
-//    if(isNumber(tokens[0]) != true)
-//    {
-//        throw invalid_argument("NUM_EXPECTED");
-//    }
-    // defNum convert to int
-    int def_count = readInt();
-    for (int i = 0; i < def_count; i++)
+    //def_count
+    if(parse_mode == 0)
     {
-         string sym = readSymbol();
-         int val = readInt();
-         createSymbol(sym,val);
-        // string symbol = tokenizer.read_symbol();
-        // int rel_addr = tokenizer.read_int();
-        // deflist.push_back(symbol);
-        // defaddr.push_back(rel_addr);
+        int def_count = readInt();
+        if (def_count > def_count_limit)
+        {
+            throw invalid_argument("TOO_MANY_DEF_IN_MODULE");
+        }
+        for (int i = 0; i < def_count; i++)
+        {
+            string sym = readSymbol();
+            int val = readInt();
+            createSymbol(sym,val);
+        }
     }
-    // stringstream geek(s);
+    else if (parse_mode == 1)
+    {
+        // use count
+        int use_count = readInt();
+        if (use_count > use_count_limit)
+        {
+            throw invalid_argument("TOO_MANY_USE_IN_MODULE");
+        }
+        for (int i = 0; i < use_count; i++)
+        {
+            readSymbol();
+        }
+    }
+    else if (parse_mode == 2)
+    {
+        int inst_count = readInt();
+        if (module_addr + inst_count > machine_memory_size)
+        {
+            throw invalid_argument("TOO_MANY_INSTR");
+        }
+        for (int i=0;i<inst_count;i++)
+        {
+            string address_mode = readIEAR();
+            int operand = readInt();
+        }
+        module_addr += inst_count;
+        module_num += 1;
+    }
+
+
+
+
+
+    // this would change in pass2
+    
 
     return;
-    
 }
-
-
-//void split(const std::string& str, std::vector<std::string>& tokens, const std::string delim = " ")
-//{
-//    tokens.clear();                                     //global private
-//    auto start = str.find_first_not_of(delim, 0);       // 分割到的字符串的第一个字符
-//    auto position = str.find_first_of(delim, start);    // 分隔符的位置
-//    string token;
-//    while (position != std::string::npos || start != std::string::npos) {
-//        // [start, position) 为分割下来的字符串
-//        token = str.substr(start, position - start);
-//        tokens.emplace_back(std::move(token));
-//        start = str.find_first_not_of(delim, position);
-//
-//        position = str.find_first_of(delim, start);
-//    }
-//}
-
-
 
 void Tokenizer::get_tokens(const std::string delim = " ")
 {
+    //reset token and token index
     tokens.clear();                                     //global private
-    auto start = line_str.find_first_not_of(delim, 0);       // 分割到的字符串的第一个字符
-    auto position = line_str.find_first_of(delim, start);    // 分隔符的位置
+    token_index = 0;
+    auto start = line_str.find_first_not_of(delim, 0);
+    auto position = line_str.find_first_of(delim, start);
     string token;
     while (position != std::string::npos || start != std::string::npos)
     {
@@ -247,5 +336,6 @@ void Tokenizer::get_tokens(const std::string delim = " ")
         start = line_str.find_first_not_of(delim, position);
         position = line_str.find_first_of(delim, start);
     }
+
 }
 
