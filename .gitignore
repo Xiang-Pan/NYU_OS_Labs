@@ -1,9 +1,21 @@
+# project related
+
+
 # MAXOS
 **/.DS_Store
 **/main1.cpp
 **/.vscode/
 **/.idea/
 **/back/
+
+
+
+
+
+
+
+
+
 # C++ gitignore
 # Prerequisites
 *.d

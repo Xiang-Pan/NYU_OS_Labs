@@ -369,7 +369,7 @@ void Tokenizer::handle_parse_error(invalid_argument& e)
 void Tokenizer::tokenize()
 {
     int mode = 0;
-    while(!eof(f_in))
+    while(mode!=0 || !eof(f_in))
     {
         try
         {
@@ -446,7 +446,7 @@ void Tokenizer::tokenize_pass2()
 {
     int mode = 0;
     init();
-    while(!eof(f_in))
+    while(mode!=0 || !eof(f_in))
     {
         try
         {
@@ -546,8 +546,9 @@ void Tokenizer::do_op(string address_mode, int op)
     string err_info = "";
     if (address_mode == "I" && op >= 10000)    //! I model check
     {
-        opcode = 9;
-        operand = 999;
+        op = 9999;
+        opcode = op / 1000;
+        operand = op % 1000;
         err_info += " Error: Illegal immediate value; treated as 9999";
     }
     if (address_mode == "R")     //! relative mode
@@ -570,7 +571,7 @@ void Tokenizer::do_op(string address_mode, int op)
         {
             used_sym.push_back(use_list[operand]);
             global_used_sym.push_back(use_list[operand]);
-            err_info = " Error: " + use_list[operand] + " is not defined; zero used";
+            err_info += " Error: " + use_list[operand] + " is not defined; zero used";
             operand = 0;
         }
         else
@@ -586,14 +587,15 @@ void Tokenizer::do_op(string address_mode, int op)
         if (operand >= machine_memory_size)
         {
             operand = 0;
-            err_info = " Error: Absolute address exceeds machine size; zero used";
+            err_info += " Error: Absolute address exceeds machine size; zero used";
         }
     }
     // general check
     if (opcode >= 10) // err 11 general check
     {
-        opcode = 9;
-        operand = 999;
+        op = 9999;
+        opcode = op / 1000;
+        operand = op % 1000;;
         err_info += " Error: Illegal opcode; treated as 9999";
     }
     op = opcode * 1000 + operand;
