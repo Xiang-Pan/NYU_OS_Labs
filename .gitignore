@@ -3,6 +3,7 @@
 **/main1.cpp
 **/.vscode/
 **/.idea/
+**/back/
 # C++ gitignore
 # Prerequisites
 *.d

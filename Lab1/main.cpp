@@ -48,7 +48,7 @@ class Linker
 
 int main(int argc, const char * argv[]) 
 {
-    cout<<argc<<endl;
+    // cout<<argc<<endl;
     if(argc!=2)
     {
         cout<<"Expected argument after options"<<endl;
@@ -56,6 +56,11 @@ int main(int argc, const char * argv[])
     }
     Tokenizer tokenizer(argv[1]);
     tokenizer.tokenize();
+    if(tokenizer.error_detected)
+    {
+        return -1;
+    }
+    tokenizer.tokenize_pass2();
     // tokenizer.readSymbol();
     // string a = "aaa";
     // isSymbol(a);
