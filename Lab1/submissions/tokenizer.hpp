@@ -130,16 +130,25 @@ bool Tokenizer::eof(ifstream& f_in)
 {
     auto offset = f_in.tellg();
     string temp_line_str;
-    if (getline(f_in,temp_line_str))
-    {
-        f_in.seekg(offset); //restore
-        return false;
-    }
     if(token_index != tokens.size())
     {
         return false;
     }
-    return true;
+    int temp_line_offset = 1;
+    int temp_line_num = 0;
+
+    while(temp_line_str.empty())
+    {
+        if(!getline(f_in,temp_line_str))
+        {
+            line_num += temp_line_num;
+            line_offset = 1;
+            return true;
+        }
+        temp_line_num +=1;
+    }
+    f_in.seekg(offset);
+    return false;
 }
 
 void Tokenizer::check_relative_addr()
@@ -229,6 +238,23 @@ void Tokenizer::createSymbol(string sym, int val)
     }
 }
 
+
+bool can_get_valid_line(ifstream& f_in)
+{
+    string line_str = "";
+    auto offset = f_in.tellg();
+    while(line_str.empty() && getline(f_in,line_str))
+    {
+
+    }
+    if(!line_str.empty())
+    {
+        f_in.seekg(offset);
+        return true;
+    }
+    return false;
+}
+
 bool Tokenizer::getToken()
 {
     if(token_index < tokens.size())
@@ -240,36 +266,32 @@ bool Tokenizer::getToken()
     }
     else
     {
-        if(getline(f_in,line_str))
+        line_offset += token.length();
+        token="";
+        line_str="";
+        while(line_str.empty())
         {
-            while(!eof(f_in) && line_str.empty())  //!!! check here
+            if(!getline(f_in,line_str))
             {
-                line_num++;
-                getline(f_in,line_str);
+                return false;
             }
-            // if(eof(f_in))
-            // {
-            //     return false;
-            // }
-//            cout<<"line_str"<<line_str.length()<<endl;
-            line_num++;
-            // reset token
-            tokens.clear();
-            poss.clear();
-            token_index = 0;
-            get_tokens(" \t\n");
-            token = tokens[token_index];
-            line_offset = poss[token_index];
-            token_index += 1;
-            return true;
-        }
-        else
-        {
-            return false;
+            line_offset = 1;
+            line_num +=1;
         }
         
+        // reset token
+        tokens.clear();
+        poss.clear();
+        token="";
+        token_index = 0;
+        get_tokens(" \t\n");
+        token = tokens[token_index];
+        line_offset = poss[token_index];
+        token_index += 1;
+        return true;
     }
 }
+
 
 string Tokenizer::readIEAR()
 {
@@ -310,6 +332,7 @@ int Tokenizer::readInt()
     }
     else
     {
+        // cout<<token.length();
         line_offset += token.length();
         throw invalid_argument("NUM_EXPECTED");
         return -1;
@@ -348,25 +371,24 @@ void Tokenizer::tokenize()
     int mode = 0;
     while(!eof(f_in))
     {
-            try
+        try
+        {
+            parse_tokens(mode);
+            if(mode == 2)
             {
-
-                parse_tokens(mode);
-                if(mode == 2)
-                {
-                    check_relative_addr();
-                    module_addr += inst_count;
-                    module_num += 1;
-                }
-                mode += 1;
-                mode = mode%3;
+                check_relative_addr();
+                module_addr += inst_count;
+                module_num += 1;
             }
-            catch(invalid_argument& e) 
-            {
-                handle_parse_error(e);
-                error_detected = true;
-                return;
-            }
+            mode += 1;
+            mode = mode%3;
+        }
+        catch(invalid_argument& e) 
+        {
+            handle_parse_error(e);
+            error_detected = true;
+            return;
+        }
     }
     // cout<<"Final Spot in File : line="<<line_num<<" offset="<<line_offset+token.length()<<endl;
     print_sym_table();
@@ -637,6 +659,7 @@ void Tokenizer::get_tokens(const std::string delim = " \t\n")
 {
     //reset token and token index
     // tokens.clear();                                     //global private
+
     // token_index = 0;
     auto start = line_str.find_first_not_of(delim, 0);
     auto position = line_str.find_first_of(delim, start);
