@@ -12,21 +12,6 @@
 #include <iomanip>
 using namespace std;
 
-// enum PARSE_ERROR_TYPE 
-// {
-//     NUM_EXPECTED,
-//     SYM_EXPECTED,
-//     ADDR_EXPECTED,
-//     SYM_TOO_LONG,
-//     TOO_MANY_DEF_IN_MODULE,
-//     TOO_MANY_USE_IN_MODULE,
-//     TOO_MANY_INSTR
-// };
-
-
-
-
-
 bool isNumber(const string& str)
 {
     for (char const &c : str) 
@@ -60,10 +45,11 @@ static bool isSymbol(const string& token)
 
 bool isIEAR(const string& token) 
 {
-    return token=="I" || token=="A" || token=="E" || token=="R";
+    std::string pattern{"[IEAR]"}; 
+	std::regex re(pattern);
+    bool isIEAR = std::regex_match(token, re);
+    return isIEAR;
 }
-
-
 
 class Tokenizer 
 {
@@ -77,15 +63,9 @@ class Tokenizer
 
         bool eof(ifstream& f_in);
         void module_check();
-
-
-
         int readInt();
         string readSymbol();
         string readIEAR();
-
-
-
         void print_sym_table();
         void print_mem_map();
 
@@ -112,9 +92,6 @@ class Tokenizer
         vector<vector<string> > all_sym_list;
         vector<vector<string> > all_used_sym;
 
-
-
-
     vector<string> sym_list;
         vector<int> sym_address;
 
@@ -135,20 +112,12 @@ class Tokenizer
         vector<string> multi_defiend_syms;
         map<string,int>::iterator sym_table_iter;
 
-
         map<int, string> error_map;
         map<int, string> warnning_map;
 
-        // map<string,bool> 
-
-
         void check_addr(int addr);
-
         void check_relative_addr();
-
         int inst_count = 0;
-
-
         void init();
 
     public:
@@ -241,17 +210,7 @@ void Tokenizer::print_mem_map()
         {
             cout<<warnning_map[i];
         }
-        
-    
     }
-//     while (p < moderr.size()) {
-//         cout << moderr[p].second;
-//         p++;
-
-    // int p = 0;
-
-
-    
 }
 
 
@@ -268,13 +227,6 @@ void Tokenizer::createSymbol(string sym, int val)
     {
         sym_table[sym] = module_addr + val;
     }
-        // if (val >= inst_co) {
-        //     cout << "Warning: Module " << module << ": " << symbol << " too big " << rel_addr << " (max=" << codecount-1 << ") assume zero relative" << endl;
-        //     symbol_table_[symbol] = module_addr;
-        // }
-        // int absolute_addr = module_addr + val;
-        // check_addr(absolute_addr);
-        // sym_table[sym] = module_addr + val;
 }
 
 bool Tokenizer::getToken()
@@ -340,8 +292,6 @@ string Tokenizer::readIEAR()
     }
 }
 
-//bool Tokenizer::
-
 int Tokenizer::readInt()
 {
     if(getToken())
@@ -393,9 +343,6 @@ void Tokenizer::handle_parse_error(invalid_argument& e)
     return;
 }
 
-
-
-
 void Tokenizer::tokenize()
 {
     int mode = 0;
@@ -413,8 +360,6 @@ void Tokenizer::tokenize()
                 }
                 mode += 1;
                 mode = mode%3;
-                
-                
             }
             catch(invalid_argument& e) 
             {
@@ -435,6 +380,8 @@ void Tokenizer::init()
     sym_list.clear();
     use_list.clear();
     used_sym.clear();
+    f_in.clear();
+    f_in.seekg(0, f_in.beg);
 }
 
 void Tokenizer::module_check()
@@ -451,15 +398,12 @@ void Tokenizer::module_check()
             {
                 string error_temp = "Warning: Module " + to_string(j+1) + ": " + use_list[i] +" appeared in the uselist but was not actually used\n";
                 warnning_map[i] = error_temp;
-                // module_error_info += error_temp;
             }
         }
-
         // if(module_error_info!="")
         // {
         //     module_error_info+="\n";
         // }
-
 
         // rule 4
         sym_list = all_sym_list[j];
@@ -474,20 +418,11 @@ void Tokenizer::module_check()
             }
         }
     }
-
-    
-
-        // }
-
-    //defined check
-   
 }
 
 void Tokenizer::tokenize_pass2()
 {
     int mode = 0;
-    f_in.clear();
-    f_in.seekg(0, f_in.beg);
     init();
     while(!eof(f_in))
     {
@@ -499,9 +434,6 @@ void Tokenizer::tokenize_pass2()
                 // check_relative_addr();
                 // post_process 
                 
-
-
-                // module_check();
                 // reset
                 all_used_sym.push_back(used_sym);
                 all_use_list.push_back(use_list);
@@ -511,7 +443,6 @@ void Tokenizer::tokenize_pass2()
                 used_sym.clear();
                 module_addr += inst_count;
                 module_num += 1;
-
             }
             //module reset
             mode += 1;
@@ -530,8 +461,6 @@ void Tokenizer::tokenize_pass2()
 //    print_sym_table();
     module_check();
     print_mem_map();
-    
-    
     if(module_error_info != "")
     {
         cout<<module_error_info<<endl;
@@ -539,9 +468,6 @@ void Tokenizer::tokenize_pass2()
 //    print_module_error();
     return;
 }
-
-
-
 
 void Tokenizer::parse_tokens(int parse_mode = 0)
 {
@@ -585,10 +511,10 @@ void Tokenizer::parse_tokens(int parse_mode = 0)
             string address_mode = readIEAR();
             int op = readInt();
         }
-    
     }
     return;
 }
+
 
 void Tokenizer::do_op(string address_mode, int op)
 {
@@ -707,9 +633,6 @@ void Tokenizer::parse_tokens_pass2(int parse_mode = 0)
 }
 
 
-
-
-
 void Tokenizer::get_tokens(const std::string delim = " \t\n")
 {
     //reset token and token index
@@ -728,47 +651,4 @@ void Tokenizer::get_tokens(const std::string delim = " \t\n")
         start = line_str.find_first_not_of(delim, position);
         position = line_str.find_first_of(delim, start);
     }
-    
-
 }
-
-
-//for(; getline(f_in,line_str);)
-//{
-////create module
-//int mode = (line_num-1)%3;
-//line_offset = line_str.length();
-//get_tokens(" ");
-//try
-//{
-//parse_tokens(mode);
-//}
-//catch(invalid_argument& e)
-//{
-//handle_parse_error(e);
-//error_detected = true;
-//return;
-//}
-////check sym table
-//if(mode == 2) //
-//{
-//sym_table_iter = sym_table.begin();
-//while(sym_table_iter != sym_table.end())
-//{
-//// cout << iter->first << " : " << iter->second << endl;
-//string sym = sym_table_iter->first;
-//int absolute_addr = sym_table_iter->second;
-//int relative_addr = absolute_addr - module_addr;
-//if(relative_addr >= inst_count)
-//{
-//cout << "Warning: Module " << module_num << ": " << sym << " too big " << relative_addr << " (max=" << inst_count-1 << ") assume zero relative" << endl;
-//}
-//sym_table_iter++;
-//}
-//}
-//line_num++;
-//// cout<< line_num <<endl;
-//}
-//print_sym_table();
-//return;
-
