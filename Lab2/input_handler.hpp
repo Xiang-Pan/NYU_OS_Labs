@@ -29,10 +29,10 @@ using namespace std;
 
 // INITIALIZE_EASYLOGGINGPP
 
-void Simulation() 
-{
-    return;
-}
+// void Simulation() 
+// {
+//     return;
+// }
     // while(evt = get_event())
     // {
         
@@ -81,6 +81,10 @@ class InputHandler
         char ** argv;
         InputHandler(int argc, char** argv);
         int arg_parse();
+
+        deque<Process*> input_queue;
+
+        void create_process_from_input();
         
 
         // random file 
@@ -176,14 +180,7 @@ vector<string> InputHandler::get_tokens(string line_str,const std::string delim 
     return tokens;
 }
 
-int string2int(string s)
-{
-    // object from the class stringstream
-    stringstream ss(s);
-    int x = 0;
-    ss >> x;
-    return x;
-}
+
 
 bool InputHandler::read_inputfile()
 {
@@ -198,14 +195,22 @@ bool InputHandler::read_inputfile()
     return succ;
 }
 
+int string2int(string s)
+{
+    stringstream ss(s);
+    int x = 0;
+    ss >> x;
+    return x;
+}
 
-void create_process_from_input(InputHandler& input_handler,deque<Process*>* ProcessList)
+
+void InputHandler::create_process_from_input()
 {
     int pid = 0;
-    vector<string> tokens;
-    while(input_handler.read_inputfile())
+    // vector<string> tokens;
+    while(read_inputfile())
     {
-        tokens = input_handler.tokens;
+        // tokens = tokens;
         Process* p = new Process();
         p->pid = pid;
         p->AT = string2int(tokens[0]);
@@ -213,9 +218,13 @@ void create_process_from_input(InputHandler& input_handler,deque<Process*>* Proc
         p->CB = string2int(tokens[2]);
         p->IO = string2int(tokens[3]);
         p->RC = p->TC;
+        input_queue.push_back(p);
         pid += 1;
     }
 }
+
+
+
 
 
 

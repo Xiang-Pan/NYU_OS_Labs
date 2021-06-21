@@ -14,54 +14,54 @@ using namespace std;
 // };
 
 
-class Event
-{
-    public:
-        string time_stamp;
-        string procss;
-        string old_state;
-        string new_state;
-    private:
+// class Event
+// {
+//     public:
+//         string time_stamp;
+//         string procss;
+//         string old_state;
+//         string new_state;
+//     private:
 
-};
+// };
 
-class DES
-{
-    public:
-        DES();
-        Event get_event();
-        bool put_event();
-        bool rm_event();
+// class DES
+// {
+//     public:
+//         DES();
+//         Event get_event();
+//         bool put_event();
+//         bool rm_event();
 
-        vector<Event> event_list;
+//         vector<Event> event_list;
 
-        int event_pointer = -1;
+//         int event_pointer = -1;
 
-};
-
-
-DES::DES()
-{
-    cout<<"DES"<<endl;
-}
+// };
 
 
+// DES::DES()
+// {
+//     cout<<"DES"<<endl;
+// }
 
 
-Event DES::get_event()
-{
-    // if(event_pointer)
-    // {
 
-    // }
-    Event e;
-    return e;
-}
 
-bool DES::put_event()
-{
-    return true;
-}
+// Event DES::get_event()
+// {
+//     // if(event_pointer)
+//     // {
+
+//     // }
+//     // Event e;
+//     // return e;
+// }
+
+// bool DES::put_event()
+// {
+//     return true;
+// }
 
 
 

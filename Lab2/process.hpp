@@ -32,6 +32,10 @@ class Process
         // Process_STATE state = state_created;
         Process();
 
+    bool operator == (const Process &p) 
+    {
+        return (this->pid == p.pid);
+    }
     private:
 
     // int static_Prio;
