@@ -25,7 +25,7 @@ class Process
         int IT; //I/O time
         // int remaining_CB;
         // int generated_CB;
-        // int state_ts;//state time
+        int state_ts;//state time
         // int nexttime;
 
         // int created;

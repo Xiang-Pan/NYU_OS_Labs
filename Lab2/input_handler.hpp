@@ -9,6 +9,7 @@
 #include <regex>
 #include <unistd.h> //parse args
 #include "process.hpp"
+#include "scheduler.hpp"
 using namespace std;
 
 #define VNAME(name) (#name)
@@ -74,6 +75,8 @@ int maxproi = -1;
 //     return 1 + (randvals[ofs] % burst); 
 // }
 
+
+
 class InputHandler
 {
     public:
@@ -82,7 +85,7 @@ class InputHandler
         InputHandler(int argc, char** argv);
         int arg_parse();
 
-        deque<Process*> input_queue;
+        deque<Process*> input_process_queue;
 
         void create_process_from_input();
         
@@ -91,15 +94,13 @@ class InputHandler
         int get_random_num(int burst);
         int get_random_seed();
         void read_randomfile();
+        Scheduler_type scheduler_type;
 
         // input file
         vector<string> tokens;
         bool read_inputfile();
 
         vector<string> get_tokens(string line_str, const string delim);
-
-
-
 
 
     private:
@@ -218,7 +219,7 @@ void InputHandler::create_process_from_input()
         p->CB = string2int(tokens[2]);
         p->IO = string2int(tokens[3]);
         p->RC = p->TC;
-        input_queue.push_back(p);
+        input_process_queue.push_back(p);
         pid += 1;
     }
 }
@@ -249,7 +250,11 @@ int InputHandler::arg_parse()
                 printf("opt is e, oprarg is: %s\n", optarg);
                 break;
             case 's':
-                printf("opt is s, oprarg is: %s\n", optarg);
+                if(optarg == "F")
+                {
+                    scheduler_type = FCFS;
+                }
+                // printf("opt is s, oprarg is: %s\n", optarg);
                 sscanf(optarg, "%d:%d", &quantum, &maxproi);
                 // cout<<quantum<<maxproi;
                 break;

@@ -1,12 +1,20 @@
+#pragma once
 #include <string>
 #include <deque>
 #include "process.hpp"
+
 using namespace std;
+
+enum Scheduler_type
+{
+    FCFS,
+    LCFS
+};
 
 class Scheduler
 {
     public:
-        Scheduler();
+        // Scheduler();
         deque<Process*> scheduler_queue;
 
         // default inplementation
@@ -33,9 +41,26 @@ class Scheduler
 // First come first served sheduler.
 class FCFSScheduler:public Scheduler
 {
-    FCFSScheduler();
+    public:
+        FCFSScheduler();
 };
 
+FCFSScheduler::FCFSScheduler() 
+{
+    return;
+}
+
+
+Scheduler* create_scheduler(Scheduler_type scheduler_type)
+{
+    Scheduler* s;
+    if(scheduler_type==FCFS)
+    {
+        s = new FCFSScheduler();
+    }
+    return s;
+
+}
 
 
 // class Scheduler
