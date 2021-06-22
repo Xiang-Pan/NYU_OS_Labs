@@ -1,3 +1,3 @@
-/Users/xiangpan/manjaro/NYU_OS_Labs/Lab1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/xiangpan/manjaro/NYU_OS_Labs/Lab1/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/xiangpan/manjaro/NYU_OS_Labs/Lab1/cmake-build-debug/CMakeFiles/linker.dir
+/tmp/tmp.Z6g8AayphE/cmake-build-debug/CMakeFiles/edit_cache.dir
+/tmp/tmp.Z6g8AayphE/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/tmp/tmp.Z6g8AayphE/cmake-build-debug/CMakeFiles/linker.dir
