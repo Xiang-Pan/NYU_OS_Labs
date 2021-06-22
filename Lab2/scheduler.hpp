@@ -22,24 +22,24 @@ class Scheduler
         {
             scheduler_queue.push_back(p);
             return;
-        }; 
+        };
 
-        
+
         virtual Process* get_next_process()
         {
-            if (scheduler_queue.size() == 0)
+            if(scheduler_queue.size() == 0)
                 return NULL;
             Process* cur_p = scheduler_queue.front();
             scheduler_queue.pop_front();
             return cur_p;
-        }; 
-        
+        };
+
         void test_preempt(Process *p, int curtime); // typically NULL but for ‘E’
 };
 
 
 // First come first served sheduler.
-class FCFSScheduler:public Scheduler
+class FCFSScheduler: public Scheduler
 {
     public:
         FCFSScheduler();

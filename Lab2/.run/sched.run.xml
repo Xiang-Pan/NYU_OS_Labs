@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="sched" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="/tmp/tmp.wCcabccAtB/lab2_assign/input0  /tmp/tmp.wCcabccAtB/lab2_assign/rfile" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Lab2" TARGET_NAME="sched" CONFIG_NAME="manjaro" RUN_TARGET_PROJECT_NAME="Lab2" RUN_TARGET_NAME="sched">
+    <method v="2">
+      <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+    </method>
+  </configuration>
+</component>

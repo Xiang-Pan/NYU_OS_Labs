@@ -10,22 +10,10 @@
 #include <unistd.h> //parse args
 #include "process.hpp"
 #include "scheduler.hpp"
+#include "utils.hpp"
 using namespace std;
 
-#define VNAME(name) (#name)
-#define debugging_enabled true
-#define debug(x) do { \
-  if (debugging_enabled) { std::cerr << VNAME(x)<<":"<< x << std::endl; } \
-} while (0)
 
-#define debug_vector(v) do { \
-    if (debugging_enabled) {\
-        for(int i=0; i<v.size(); i++)\
-        {\
-            std::cerr << i <<":"<< v[i] << std::endl;\
-        }\
-    } \
-} while (0)
 
 
 // INITIALIZE_EASYLOGGINGPP
@@ -94,7 +82,7 @@ class InputHandler
         int get_random_num(int burst);
         int get_random_seed();
         void read_randomfile();
-        Scheduler_type scheduler_type;
+        Scheduler_type scheduler_type = FCFS;
 
         // input file
         vector<string> tokens;
@@ -241,7 +229,8 @@ int InputHandler::arg_parse()
         switch (o)
         {
             case 'v':
-                printf("opt is v, oprarg is: %s\n", optarg);
+                verbose = true;
+                // printf("opt is v, oprarg is: %s\n", optarg);
                 break;
             case 't':
                 printf("opt is t, oprarg is: %s\n", optarg);

@@ -7,7 +7,8 @@ enum Process_STATE
     state_created,
     state_ready,
     state_running,
-    state_blocked
+    state_blocked,
+    state_preempt
 };
 
 class Process
@@ -23,13 +24,17 @@ class Process
         int CW; //Cpu waiting time
         int FT; //finish time
         int IT; //I/O time
-        // int remaining_CB;
+        // int time_in_prev_state; //
+        int remaining_CB = 0;
+        int dynamic_prio = 0;
         // int generated_CB;
-        int state_ts;//state time
+        int state_ts;               //cur state begin time
+        int time_in_prev_state;     //previous state time length
+        
         // int nexttime;
 
         // int created;
-        // Process_STATE state = state_created;
+        Process_STATE state = state_created;
         Process();
 
     bool operator == (const Process &p) 

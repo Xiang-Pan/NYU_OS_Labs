@@ -1,8 +1,9 @@
 #pragma once
 #include "process.hpp"
-
-
+#include "event.hpp"
+#include "utils.hpp"
 using namespace std;
+
 
 // class OutputHhandler
 // {
@@ -16,21 +17,56 @@ using namespace std;
 //         // void Trace_Pre(Process* p, Process* curr, int timestamp, int verbose, int flag1, int flag2);
 // };
 
-void Trace_Ready(Process* p, int timestamp, int verbose, int flag1, int flag2)
+
+void log_transition(Process* p, Transition_type transition_type, int timestamp, int runtime = 0)
 {
-    if (verbose == 1)
+    // debug("log_transition");
+    // debug(verbose);
+    switch (transition_type)
     {
-        if (flag1 == 0 && flag2 == 0)
+        case created_ready:
         {
-            if (p->created == 0)
-            {
-                printf("%d %d 0: CREATED -> READY\n", timestamp, p->pid);
-                p->created = 1;
-            }
-            else
-            {
-                printf("%d %d %d: BLOCK -> READY\n", timestamp, p->pid, p->timeInPrevState);
-            }
+            printf("%d %d 0: CREATED -> READY\n", timestamp, p->pid);
+            break;
         }
+        case blocked_ready:
+        {
+            printf("%d %d %d: BLOCK -> READY\n", timestamp, p->pid, p->time_in_prev_state);
+            break;
+        }
+        case ready_running:
+        {
+            printf("%d %d %d: READY -> RUNNG cb=%d rem=%d prio=%d\n", timestamp, p->pid, p->time_in_prev_state,p->remaining_CB+runtime, p->RC+runtime,p->dynamic_prio);
+            break;
+        }
+            
     }
+
+    // if (p->created == 0)
+    // {
+    //     printf("%d %d 0: CREATED -> READY\n", timestamp, p->pid);
+    //     p->created = 1;
+    // }
+    // else
+    // {
+    //     printf("%d %d %d: BLOCK -> READY\n", timestamp, p->pid, p->timeInPrevState);
+    // }
 }
+// void Trace_Ready(Process* p, int timestamp, int verbose, int flag1, int flag2)
+// {
+//     if (verbose == 1)
+//     {
+//         if (flag1 == 0 && flag2 == 0)
+//         {
+//             if (p->created == 0)
+//             {
+//                 printf("%d %d 0: CREATED -> READY\n", timestamp, p->pid);
+//                 p->created = 1;
+//             }
+//             else
+//             {
+//                 printf("%d %d %d: BLOCK -> READY\n", timestamp, p->pid, p->timeInPrevState);
+//             }
+//         }
+//     }
+// }

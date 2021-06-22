@@ -1,6 +1,9 @@
-
 // this transition class is for event performing
+#pragma once
+#include "process.hpp"
+#include "scheduler.hpp"
 
+using namespace std;
 // class Transition :
 // {
 //     friend class StateMachine;
@@ -9,6 +12,18 @@
 //         TT_INTERNAL_TRANSITION,
 //     };
 // }
+
+
+class Transition
+{
+    public:
+        Transition();
+
+        
+
+
+
+};
 
 //  public:
 

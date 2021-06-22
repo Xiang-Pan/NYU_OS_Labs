@@ -14,11 +14,12 @@ class EventManager
         void set_event_queue(deque<Process*> input_process_queue);
         // void Initiliaze_Event_Queue(deque<Process*> ProcessList);
 
-
         Event* get_event();
         void put_event(Event* e);
         void rm_event(Process* p);
         int get_next_event_time();
+
+        void sumulation();
 
 };
 
@@ -36,7 +37,7 @@ void EventManager::set_event_queue(deque<Process*> input_process_queue)
     }
     for (int i = 0; i < input_process_queue.size(); i++)
     {
-        Event* e = new Event(input_process_queue[i],input_process_queue[i]->AT,TRANS_TO_READY);
+        Event* e = new Event(input_process_queue[i], input_process_queue[i]->AT, TRANS_TO_READY);
         event_queue.push_back(e);
     }
 }
@@ -49,6 +50,7 @@ EventManager::EventManager()
 
 Event* EventManager::get_event()
 {
+    // debug
     if(event_queue.empty())
     {
         debug("event_queue.empty");
@@ -57,6 +59,7 @@ Event* EventManager::get_event()
     }   
     Event* event = event_queue.front();
     event_queue.pop_front();
+    debug(event);
     return event;
 }
 
