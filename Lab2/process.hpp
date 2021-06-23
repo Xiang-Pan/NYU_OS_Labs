@@ -27,9 +27,12 @@ class Process
         // int time_in_prev_state; //
         int remaining_CB = 0;
         int dynamic_prio = 0;
-        // int generated_CB;
-        int state_ts;               //cur state begin time
-        int time_in_prev_state;     //previous state time length
+        int generated_CB = 0;
+        int state_ts = -1;                   //cur state begin time
+        int time_in_prev_state = 0;     //previous state time length
+
+
+        
         
         // int nexttime;
 

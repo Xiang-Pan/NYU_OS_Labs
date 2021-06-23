@@ -2,12 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 #include "process.hpp"
+#include "event_manager.hpp"
 #include "output_handler.hpp"
 #include "utils.hpp"
 
+using namespace std;
 
 // typedef enum {  } ;
-
+class EventManager;
 
 //define transition here 
 
@@ -38,12 +40,24 @@ class Event
 {
 public:
     Process* p;
-    InputHandler &g_input_handler;
+    // InputHandler &g_input_handler;
     int timestamp;
     Event_transition transition;
+
+    int next_time;
+    Event_transition next_transition;
+    
     Process_STATE old_state;
     Process_STATE new_state;
     Transition_type transition_type;
+    InputHandler* ih;
+    Scheduler* s;
+    // input_process_queue
+    // EventManager* event_manager;
+    // EventManager event_manager;
+
+    Event* next_event = nullptr;
+    
 
     // int cur_time;
 
@@ -122,18 +136,19 @@ void Event::make_transition()
     // debug(new_state);
     // debug(transition);
     // debug(old_state == state_created && new_state == state_ready);
-    if(old_state == state_created && new_state == state_ready)
+    if(old_state == state_created && new_state == state_ready)  
     {
         transition_type = created_ready;
         p->state = state_ready;
         created_ready_fun();
+        s->add_process(p);
     }
-    if(old_state == state_blocked && new_state == state_ready)
+    if(old_state == state_blocked && new_state == state_ready)  
     {
         transition_type = blocked_ready;
         blocked_ready_fun();
     }
-    if(old_state == state_ready && new_state == state_running)
+    if(old_state == state_ready && new_state == state_running)  // TRANS_TO_RUN
     {
         transition_type = ready_running;
         ready_running_fun();
@@ -141,7 +156,8 @@ void Event::make_transition()
     if(old_state == state_running && new_state == state_ready)
     {
         // debug("running_ready");
-        ready_running_fun();
+        // ready_running_fun();
+        // running_ready_fun();
         transition_type = running_ready;
     }
     if(old_state == state_running && new_state == state_blocked)
@@ -199,49 +215,50 @@ void Event::blocked_ready_fun()
 
 void Event::ready_running_fun()
 {
-    int running_time = 0;
-    // CURRENT_RUNNING_PROCESS = proc;
+    int runtime = 0;
+    // // CURRENT_RUNNING_PROCESS = proc;
     p->CW += p->time_in_prev_state;
     p->state_ts = timestamp;  // cur_time
-    // if we do not have a remaining CPU burst then we generate one.
+    // // if we do not have a remaining CPU burst then we generate one.
     if (p->remaining_CB == 0)
     {
-        p->remaining_CB = ih.myrandom(proc->CB);
-        proc->generated_CB = proc->remaining_CB;
-        ih.ofs++;
+        p->remaining_CB = ih->get_random_num(p->CB);
+        p->generated_CB = p->remaining_CB;
+        cout<<p->generated_CB;
+        // ih->ofs++; //TODO
     }
-    // if the remaining cpu burst in this time is less than or equal to the quantum
-    // then the next time is block
-    if (proc->remaining_CB > proc->RC)
+    // // // if the remaining cpu burst in this time is less than or equal to the quantum
+    // // // then the next time is block
+    if (p->remaining_CB > p->RC)
     {
-        proc->remaining_CB = proc->RC;
+        p->remaining_CB = p->RC;
     }
-    if (proc->remaining_CB <= ih.quantum)
+    if (p->remaining_CB <= ih->quantum)
     {
-        Next_Transition = TRANS_TO_BLOCK;
-        runtime = proc->remaining_CB;
-        proc->remaining_CB = 0;
+        next_transition = TRANS_TO_BLOCK;
+        runtime = p->remaining_CB;
+        p->remaining_CB = 0;
     }
-    //else which means the quantum of this process is all used, then it needs to be preempt.
+    // // //else which means the quantum of this process is all used, then it needs to be preempt.
     else
     {
-        Next_Transition = TRANS_TO_PREEMPT;
-        runtime = ih.quantum;
-        proc->remaining_CB -= ih.quantum;
+        next_transition = TRANS_TO_PREEMPT;
+        runtime = ih->quantum;
+        p->remaining_CB -= ih->quantum;
     }
-    if (proc->RC - runtime < 0)
+    if (p->RC - runtime < 0)
     {
-        runtime = proc->RC;
+        runtime = p->RC;
     }
-    // remaining cpu time should be adjusted
-    proc->RC -= runtime;
-    proc->nexttime = CURRENT_TIME + runtime;
-    proc->state = STATE_RUNNING;
-    out.Trace_Run(proc, CURRENT_TIME, ih.verbose,runtime);
-    Event* e = new Event(proc, CURRENT_TIME + runtime, Next_Transition);
-    eh.put_event(e);
-    break;
-    log_transition(p, transition_type, timestamp);
+    // // // remaining cpu time should be adjusted
+    p->RC -= runtime;
+    next_time = timestamp + runtime;
+    p->state = state_running;
+    log_transition(p, transition_type, timestamp, runtime);
+    // out.Trace_Run(proc, CURRENT_TIME, ih.verbose,runtime);
+
+
+    next_event = new Event(p, next_time, next_transition);
     
 }
 

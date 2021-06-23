@@ -36,7 +36,7 @@ void log_transition(Process* p, Transition_type transition_type, int timestamp, 
         }
         case ready_running:
         {
-            printf("%d %d %d: READY -> RUNNG cb=%d rem=%d prio=%d\n", timestamp, p->pid, p->time_in_prev_state,p->remaining_CB+runtime, p->RC+runtime,p->dynamic_prio);
+            printf("%d %d %d: READY -> RUNNG cb=%d rem=%d prio=%d\n", timestamp, p->pid, p->time_in_prev_state, p->remaining_CB+runtime, p->RC+runtime,p->dynamic_prio);
             break;
         }
             

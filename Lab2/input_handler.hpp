@@ -51,8 +51,7 @@ using namespace std;
 // }
 
 // }
-int quantum = -1;
-int maxproi = -1;
+
 
 
 // create event to make this process runnable for same time. }
@@ -76,6 +75,10 @@ class InputHandler
         deque<Process*> input_process_queue;
 
         void create_process_from_input();
+
+
+        int quantum = -1;
+        int maxproi = -1;
         
 
         // random file 
@@ -134,6 +137,7 @@ void InputHandler::read_randomfile()
 // }
 
 // int
+// TODO HERE
 int InputHandler::get_random_seed()
 {
     string line;
@@ -245,6 +249,7 @@ int InputHandler::arg_parse()
                 }
                 // printf("opt is s, oprarg is: %s\n", optarg);
                 sscanf(optarg, "%d:%d", &quantum, &maxproi);
+                // quantum = 
                 // cout<<quantum<<maxproi;
                 break;
             case '?':
