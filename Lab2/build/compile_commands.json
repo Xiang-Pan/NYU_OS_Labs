@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/xiangpan/Labs/NYU_OS_Labs/Lab2/build",
+  "command": "/usr/bin/g++ -I../. -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/xiangpan/.conda/envs/pytorch/include -fvisibility-inlines-hidden -std=c++17 -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/xiangpan/.conda/envs/pytorch/include -g -std=gnu++14 -o CMakeFiles/sched.dir/main.cpp.o -c /home/xiangpan/Labs/NYU_OS_Labs/Lab2/main.cpp",
+  "file": "/home/xiangpan/Labs/NYU_OS_Labs/Lab2/main.cpp"
+}
+]

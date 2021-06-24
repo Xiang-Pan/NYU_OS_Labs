@@ -21,15 +21,20 @@ class Process
         int IO; //I/O burst
 
         int RC; //Rest of CPU time
-        int CW; //Cpu waiting time
-        int FT; //finish time
-        int IT; //I/O time
+        int CW = 0; //Cpu waiting time
+        int FT = -1; //finish time
+        int IT = 0; //I/O time
         // int time_in_prev_state; //
         int remaining_CB = 0;
         int dynamic_prio = 0;
         int generated_CB = 0;
         int state_ts = -1;                   //cur state begin time
         int time_in_prev_state = 0;     //previous state time length
+
+
+
+        int static_prio;
+        // int dynamic_prio;
 
 
         

@@ -77,15 +77,17 @@ class InputHandler
         void create_process_from_input();
 
 
-        int quantum = -1;
-        int maxproi = -1;
+        // int quantum = -1;
+        // int maxproi = -1;
+        int quantum=10000;
+        int maxprio = 4;
         
 
         // random file 
         int get_random_num(int burst);
         int get_random_seed();
         void read_randomfile();
-        Scheduler_type scheduler_type = FCFS;
+        Scheduler_type scheduler_type;
 
         // input file
         vector<string> tokens;
@@ -117,7 +119,7 @@ InputHandler::InputHandler(int p_argc, char** p_argv)
     inputfile_stream.open((argv[argc-2])); // AC TC CB IO
     randomfile_stream.open((argv[argc-1]));
     // debug(argc);
-    read_randomfile();
+    read_randomfile(); // have solved the first line
     // debug(argv[0]);
     
 }
@@ -150,7 +152,9 @@ int InputHandler::get_random_seed()
 
 int InputHandler::get_random_num(int burst)
 {
+
     get_random_seed();
+    // debug(cur_random_seed);
     return 1 + (cur_random_seed % burst);;
 }
 
@@ -210,7 +214,11 @@ void InputHandler::create_process_from_input()
         p->TC = string2int(tokens[1]);
         p->CB = string2int(tokens[2]);
         p->IO = string2int(tokens[3]);
+        
         p->RC = p->TC;
+
+        p->static_prio = get_random_num(maxprio);
+        p->dynamic_prio = p->static_prio - 1;
         input_process_queue.push_back(p);
         pid += 1;
     }
@@ -221,12 +229,15 @@ void InputHandler::create_process_from_input()
 
 
 
+// extern char *optarg;
 
 int InputHandler::arg_parse()
 {
     int num = 0;
     int o = 0;
     const char *optstring = "vtes:"; 
+    string a;
+    string param;
     while ((o = getopt(argc, argv, optstring)) != -1) 
     {
         num += 1;
@@ -243,13 +254,53 @@ int InputHandler::arg_parse()
                 printf("opt is e, oprarg is: %s\n", optarg);
                 break;
             case 's':
-                if(optarg == "F")
+                // debug(optarg);
+                // a = *optarg;
+                a = optarg[0];
+                // bool a = (*optarg == "F");
+                // debug(a);
+                if(a == "F")
                 {
                     scheduler_type = FCFS;
+                    break;
                 }
+                else if(a == "L")
+                {
+                    scheduler_type = LCFS;
+                    break;
+                }
+                else if(a == "S")
+                {
+                    scheduler_type = SRTF;
+                    break;
+                }
+                else if(a == "R")
+                {
+                    scheduler_type = RoundRobin;
+                    param = optarg;
+                    param = param.substr(1);
+                    quantum = string2int(param);
+                    break;
+                }
+                else if(a == "P")
+                {
+                    scheduler_type = PRIO;
+                    sscanf(optarg, "%*c%d:%d", &quantum, &maxprio);
+                    // sscanf(optarg, "%d:%d", &quantum, &maxprio);
+                    // debug(optarg);
+                    // if(quantum == 10000)
+                    // {
+                    //     sscanf(optarg, "%d", &quantum);
+                    // }
+                    debug(quantum);
+                    break;
+                }
+
+                // S=SRTF
                 // printf("opt is s, oprarg is: %s\n", optarg);
-                sscanf(optarg, "%d:%d", &quantum, &maxproi);
+                
                 // quantum = 
+                
                 // cout<<quantum<<maxproi;
                 break;
             case '?':

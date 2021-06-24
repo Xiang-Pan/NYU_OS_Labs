@@ -1,0 +1,4 @@
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=/usr/bin/g++ -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - Unix Makefiles" /tmp/tmp.wCcabccAtB
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/tmp.wCcabccAtB/cmake-build-manjaro

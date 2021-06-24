@@ -1,0 +1,1 @@
+/usr/bin/g++ -g CMakeFiles/sched.dir/main.cpp.o -o sched 

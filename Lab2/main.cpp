@@ -20,16 +20,6 @@ using namespace std;
 // InputHandler& g_input_handler;
 
 
-
-
-// int get_random()
-// {
-
-// }
-    
-
-
-
 int main(int argc, char *argv[])
 {
     InputHandler input_handler(argc, argv);
@@ -47,13 +37,16 @@ int main(int argc, char *argv[])
 
     // debug(event_manager.event_queue.size());
     // debug(event_manager->event_queue.empty());
-    EventManager event_manager =  EventManager(p_input_handler ,input_handler.input_process_queue);
+    EventManager event_manager =  EventManager(p_input_handler);
 
     //scheduler
-    Scheduler *s = create_scheduler(input_handler.scheduler_type);
+    debug(input_handler.scheduler_type);
+    debug(input_handler.quantum);
+    Scheduler *s = create_scheduler(input_handler.scheduler_type, input_handler.quantum, input_handler.maxprio);
     event_manager.s = s;
 
-    event_manager.Simulation();
+    event_manager.simulation();
+    event_manager.summary();
 //    Scheduler* s = new FCFSScheduler();
 //    s->get_next_process();
 //    cout<<s.scheduler_queue;

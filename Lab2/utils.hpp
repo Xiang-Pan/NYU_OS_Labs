@@ -26,7 +26,9 @@ enum Transition_type
     ready_running,
     running_ready,
     running_blocked,
-    blocked_ready
+    blocked_ready,
+    running_preempt,
+    preempt_running
 };
 
 enum Event_transition

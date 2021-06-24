@@ -4,24 +4,14 @@
 #include "utils.hpp"
 using namespace std;
 
-
-// class OutputHhandler
-// {
-//     public:
-//         // void print(deque<Process*> Process_List, int Finish_Time, int IO_Time, string type);
-//         // void Trace_Ready(Process* p, int timestamp, int verbose,int flag1,int flag2);
-//         // void Trace_Run(Process* p, int timestamp, int verbose, int runtime);
-//         // void Trace_Block(Process* p, int timestamp, int verbose,int IO_Time, int blocktime);
-//         // void Trace_Preempt(Process* p, int timestamp, int verbose,string type);
-//         // void Trace_Done(Process* p, int timestamp, int verbose);
-//         // void Trace_Pre(Process* p, Process* curr, int timestamp, int verbose, int flag1, int flag2);
-// };
-
-
 void log_transition(Process* p, Transition_type transition_type, int timestamp, int runtime = 0)
 {
     // debug("log_transition");
     // debug(verbose);
+    if(!verbose)
+    {
+        return;
+    }
     switch (transition_type)
     {
         case created_ready:
@@ -37,6 +27,28 @@ void log_transition(Process* p, Transition_type transition_type, int timestamp, 
         case ready_running:
         {
             printf("%d %d %d: READY -> RUNNG cb=%d rem=%d prio=%d\n", timestamp, p->pid, p->time_in_prev_state, p->remaining_CB+runtime, p->RC+runtime,p->dynamic_prio);
+            break;
+        }
+        case running_blocked:
+        {
+            if(p->RC == 0)
+            {
+                printf("%d %d %d: Done\n", p->FT, p->pid, p->time_in_prev_state);
+            }
+            else
+            {
+                printf("%d %d %d: RUNNG -> BLOCK  ib=%d rem=%d\n", timestamp, p->pid, p->time_in_prev_state, runtime, p->RC);
+            }
+            break;
+        }
+        case running_preempt:
+        {
+            printf("%d %d %d: RUNNG -> READY  cb=%d rem=%d prio=%d\n", timestamp, p->pid, p->time_in_prev_state, p->remaining_CB, p->RC, p->dynamic_prio);
+            break;
+        }
+        case preempt_running:
+        {
+            printf("%d %d %d: READY -> RUNNG cb=%d rem=%d prio=%d\n", timestamp, p->pid, p->time_in_prev_state, p->remaining_CB + runtime, p->RC + runtime, p->dynamic_prio);
             break;
         }
             
