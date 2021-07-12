@@ -141,14 +141,13 @@ void EventManager::simulation()
 
         evt->cur_running_process = cur_running_process;
         evt->cur_block_time = cur_block_time;
+        
         // set event transition
         evt->get_new_state();
         evt->make_transition();
+
         cur_block_time = evt->cur_block_time;
-
-        
         cur_running_process = evt-> cur_running_process;
-
 
         //set next event based on cur process
         Event* next_event = evt->next_event;
@@ -169,14 +168,24 @@ void EventManager::simulation()
 
         if(call_scheduler) 
         {
+            debug("herer");
+            debug(get_next_event_time());
             if (get_next_event_time() == cur_time)
                 continue;           //process next event from Event queue
             call_scheduler = false; // reset call scheduler
+            
             if (cur_running_process == nullptr) 
             {
+                // debug(cur_running_process);
+                // cout<< cur_running_process;
                 cur_running_process = s->get_next_process();
+                // debug(cur_running_process->pid);
+
                 if (cur_running_process == nullptr)
                     continue;
+                
+                debug("come");
+
                 // create event to make this process runnable for same time.
                 Event* e = new Event(cur_running_process, cur_time, TRANS_TO_RUN);
                 put_event(e);

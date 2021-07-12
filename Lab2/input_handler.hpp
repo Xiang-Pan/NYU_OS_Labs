@@ -114,8 +114,6 @@ InputHandler::InputHandler(int p_argc, char** p_argv)
 {
     argc = p_argc;
     argv = p_argv;
-
-    
     inputfile_stream.open((argv[argc-2])); // AC TC CB IO
     randomfile_stream.open((argv[argc-1]));
     // debug(argc);

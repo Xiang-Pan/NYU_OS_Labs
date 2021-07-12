@@ -2548,3 +2548,171 @@ DIR2-SUM ==>
 diff -b -B ./refout_v/out_6_E4 ../sched_out/out_6_E4 failed
 DIR1-SUM ==> SUM: 3259 92.91 83.58 2366.30 1565.40 0.307
 DIR2-SUM ==> 
+diff -b -B ./refout_v/out_0_P2 ../sched_out/out_0_P2 failed
+DIR1-SUM ==> SUM: 627 31.90 20.41 164.00 0.00 0.319
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_0_P5:3 ../sched_out/out_0_P5:3 failed
+DIR1-SUM ==> SUM: 627 31.90 20.41 164.00 0.00 0.319
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_0_E2:5 ../sched_out/out_0_E2:5 failed
+DIR1-SUM ==> SUM: 627 31.90 20.41 164.00 0.00 0.319
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_0_E4 ../sched_out/out_0_E4 failed
+DIR1-SUM ==> SUM: 627 31.90 20.41 164.00 0.00 0.319
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_1_P2 ../sched_out/out_1_P2 failed
+DIR1-SUM ==> SUM: 8237 12.14 6.53 307.60 0.00 0.061
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_1_P5:3 ../sched_out/out_1_P5:3 failed
+DIR1-SUM ==> SUM: 8237 12.14 6.53 307.60 0.00 0.061
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_1_E2:5 ../sched_out/out_1_E2:5 failed
+DIR1-SUM ==> SUM: 8237 12.14 6.53 307.60 0.00 0.061
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_1_E4 ../sched_out/out_1_E4 failed
+DIR1-SUM ==> SUM: 8237 12.14 6.53 307.60 0.00 0.061
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_2_P2 ../sched_out/out_2_P2 failed
+DIR1-SUM ==> SUM: 226 26.55 98.23 177.67 7.33 1.327
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_2_P5:3 ../sched_out/out_2_P5:3 failed
+DIR1-SUM ==> SUM: 226 26.55 98.23 177.67 7.33 1.327
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_2_E2:5 ../sched_out/out_2_E2:5 failed
+DIR1-SUM ==> SUM: 226 26.55 98.23 177.67 7.33 1.327
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_2_E4 ../sched_out/out_2_E4 failed
+DIR1-SUM ==> SUM: 226 26.55 98.23 177.67 7.33 1.327
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_3_P2 ../sched_out/out_3_P2 failed
+DIR1-SUM ==> SUM: 1049 24.79 14.78 167.75 60.75 0.381
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_3_P5:3 ../sched_out/out_3_P5:3 failed
+DIR1-SUM ==> SUM: 1045 24.88 11.48 159.25 60.00 0.383
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_3_E2:5 ../sched_out/out_3_E2:5 failed
+DIR1-SUM ==> SUM: 1049 24.79 16.40 154.75 44.00 0.381
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_3_E4 ../sched_out/out_3_E4 failed
+DIR1-SUM ==> SUM: 1049 24.79 21.83 171.75 48.00 0.381
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_4_P2 ../sched_out/out_4_P2 failed
+DIR1-SUM ==> SUM: 944 55.08 82.31 452.00 44.00 0.424
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_4_P5:3 ../sched_out/out_4_P5:3 failed
+DIR1-SUM ==> SUM: 1081 48.10 84.83 552.75 47.00 0.370
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_4_E2:5 ../sched_out/out_4_E2:5 failed
+DIR1-SUM ==> SUM: 1112 46.76 85.70 575.50 37.25 0.360
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_4_E4 ../sched_out/out_4_E4 failed
+DIR1-SUM ==> SUM: 1029 50.53 87.76 571.75 29.50 0.389
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_5_P2 ../sched_out/out_5_P2 failed
+DIR1-SUM ==> SUM: 1227 81.50 48.41 785.25 303.75 0.326
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_5_P5:3 ../sched_out/out_5_P5:3 failed
+DIR1-SUM ==> SUM: 1188 84.18 57.49 793.75 308.00 0.337
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_5_E2:5 ../sched_out/out_5_E2:5 failed
+DIR1-SUM ==> SUM: 1153 86.73 60.28 804.00 303.25 0.347
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_5_E4 ../sched_out/out_5_E4 failed
+DIR1-SUM ==> SUM: 1171 85.40 69.09 790.50 247.25 0.342
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_6_P2 ../sched_out/out_6_P2 failed
+DIR1-SUM ==> SUM: 3142 96.37 86.86 2442.90 1626.90 0.318
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_6_P5:3 ../sched_out/out_6_P5:3 failed
+DIR1-SUM ==> SUM: 3278 92.37 83.16 2505.80 1728.50 0.305
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_6_E2:5 ../sched_out/out_6_E2:5 failed
+DIR1-SUM ==> SUM: 3468 87.31 83.77 2427.00 1616.30 0.288
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_6_E4 ../sched_out/out_6_E4 failed
+DIR1-SUM ==> SUM: 3259 92.91 83.58 2366.30 1565.40 0.307
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_0_P2 ../sched_out/out_0_P2 failed
+DIR1-SUM ==> SUM: 627 31.90 20.41 164.00 0.00 0.319
+DIR2-SUM ==> SUM: 500 40.00 0.00 -251.00 0.00 0.400
+diff -b -B ./refout_v/out_0_P5:3 ../sched_out/out_0_P5:3 failed
+DIR1-SUM ==> SUM: 627 31.90 20.41 164.00 0.00 0.319
+DIR2-SUM ==> SUM: 500 40.00 0.00 -251.00 0.00 0.400
+diff -b -B ./refout_v/out_0_E2:5 ../sched_out/out_0_E2:5 failed
+DIR1-SUM ==> SUM: 627 31.90 20.41 164.00 0.00 0.319
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_0_E4 ../sched_out/out_0_E4 failed
+DIR1-SUM ==> SUM: 627 31.90 20.41 164.00 0.00 0.319
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_1_P2 ../sched_out/out_1_P2 failed
+DIR1-SUM ==> SUM: 8237 12.14 6.53 307.60 0.00 0.061
+DIR2-SUM ==> SUM: 8000 12.50 0.00 -3401.20 0.00 0.062
+diff -b -B ./refout_v/out_1_P5:3 ../sched_out/out_1_P5:3 failed
+DIR1-SUM ==> SUM: 8237 12.14 6.53 307.60 0.00 0.061
+DIR2-SUM ==> SUM: 8000 12.50 0.00 -3401.20 0.00 0.062
+diff -b -B ./refout_v/out_1_E2:5 ../sched_out/out_1_E2:5 failed
+DIR1-SUM ==> SUM: 8237 12.14 6.53 307.60 0.00 0.061
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_1_E4 ../sched_out/out_1_E4 failed
+DIR1-SUM ==> SUM: 8237 12.14 6.53 307.60 0.00 0.061
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_2_P2 ../sched_out/out_2_P2 failed
+DIR1-SUM ==> SUM: 226 26.55 98.23 177.67 7.33 1.327
+DIR2-SUM ==> SUM: 1 6000.00 0.00 -2.00 0.00 300.000
+diff -b -B ./refout_v/out_2_P5:3 ../sched_out/out_2_P5:3 failed
+DIR1-SUM ==> SUM: 226 26.55 98.23 177.67 7.33 1.327
+DIR2-SUM ==> SUM: 1 6000.00 0.00 -2.00 0.00 300.000
+diff -b -B ./refout_v/out_2_E2:5 ../sched_out/out_2_E2:5 failed
+DIR1-SUM ==> SUM: 226 26.55 98.23 177.67 7.33 1.327
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_2_E4 ../sched_out/out_2_E4 failed
+DIR1-SUM ==> SUM: 226 26.55 98.23 177.67 7.33 1.327
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_3_P2 ../sched_out/out_3_P2 failed
+DIR1-SUM ==> SUM: 1049 24.79 14.78 167.75 60.75 0.381
+DIR2-SUM ==> SUM: 1000 26.00 0.00 -251.75 0.00 0.400
+diff -b -B ./refout_v/out_3_P5:3 ../sched_out/out_3_P5:3 failed
+DIR1-SUM ==> SUM: 1045 24.88 11.48 159.25 60.00 0.383
+DIR2-SUM ==> SUM: 1000 26.00 0.00 -251.75 0.00 0.400
+diff -b -B ./refout_v/out_3_E2:5 ../sched_out/out_3_E2:5 failed
+DIR1-SUM ==> SUM: 1049 24.79 16.40 154.75 44.00 0.381
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_3_E4 ../sched_out/out_3_E4 failed
+DIR1-SUM ==> SUM: 1049 24.79 21.83 171.75 48.00 0.381
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_4_P2 ../sched_out/out_4_P2 failed
+DIR1-SUM ==> SUM: 944 55.08 82.31 452.00 44.00 0.424
+DIR2-SUM ==> SUM: 60 866.67 0.00 -38.50 0.00 6.667
+diff -b -B ./refout_v/out_4_P5:3 ../sched_out/out_4_P5:3 failed
+DIR1-SUM ==> SUM: 1081 48.10 84.83 552.75 47.00 0.370
+DIR2-SUM ==> SUM: 60 866.67 0.00 -38.50 0.00 6.667
+diff -b -B ./refout_v/out_4_E2:5 ../sched_out/out_4_E2:5 failed
+DIR1-SUM ==> SUM: 1112 46.76 85.70 575.50 37.25 0.360
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_4_E4 ../sched_out/out_4_E4 failed
+DIR1-SUM ==> SUM: 1029 50.53 87.76 571.75 29.50 0.389
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_5_P2 ../sched_out/out_5_P2 failed
+DIR1-SUM ==> SUM: 1227 81.50 48.41 785.25 303.75 0.326
+DIR2-SUM ==> SUM: 300 333.33 0.00 -151.00 0.00 1.333
+diff -b -B ./refout_v/out_5_P5:3 ../sched_out/out_5_P5:3 failed
+DIR1-SUM ==> SUM: 1188 84.18 57.49 793.75 308.00 0.337
+DIR2-SUM ==> SUM: 300 333.33 0.00 -151.00 0.00 1.333
+diff -b -B ./refout_v/out_5_E2:5 ../sched_out/out_5_E2:5 failed
+DIR1-SUM ==> SUM: 1153 86.73 60.28 804.00 303.25 0.347
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_5_E4 ../sched_out/out_5_E4 failed
+DIR1-SUM ==> SUM: 1171 85.40 69.09 790.50 247.25 0.342
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_6_P2 ../sched_out/out_6_P2 failed
+DIR1-SUM ==> SUM: 3142 96.37 86.86 2442.90 1626.90 0.318
+DIR2-SUM ==> SUM: 50 6056.00 0.00 -12.20 0.00 20.000
+diff -b -B ./refout_v/out_6_P5:3 ../sched_out/out_6_P5:3 failed
+DIR1-SUM ==> SUM: 3278 92.37 83.16 2505.80 1728.50 0.305
+DIR2-SUM ==> SUM: 50 6056.00 0.00 -12.20 0.00 20.000
+diff -b -B ./refout_v/out_6_E2:5 ../sched_out/out_6_E2:5 failed
+DIR1-SUM ==> SUM: 3468 87.31 83.77 2427.00 1616.30 0.288
+DIR2-SUM ==> 
+diff -b -B ./refout_v/out_6_E4 ../sched_out/out_6_E4 failed
+DIR1-SUM ==> SUM: 3259 92.91 83.58 2366.30 1565.40 0.307
+DIR2-SUM ==> 

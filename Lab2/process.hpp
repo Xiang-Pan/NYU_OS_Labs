@@ -14,7 +14,7 @@ enum Process_STATE
 class Process
 {
     public:
-        int pid;//ID of this process
+        int pid = -1;//ID of this process
         int AT; //Arrival time
         int TC; //Total CPU time
         int CB; //CPU burst
@@ -49,6 +49,15 @@ class Process
     {
         return (this->pid == p.pid);
     }
+
+    friend ostream &operator<<( ostream &output, const Process &p )
+    { 
+        output << p.pid <<endl;
+        return output;            
+    }
+
+
+
     private:
 
     // int static_Prio;

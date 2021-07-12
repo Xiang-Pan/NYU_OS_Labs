@@ -181,6 +181,7 @@ class PRIOScheduler :public Scheduler
         }
 };
 
+
 bool PRIOScheduler::Empty(deque<Process*> *runqueue)
 {
     for (int i = 0; i < maxprio; i++)
@@ -196,6 +197,7 @@ bool PRIOScheduler::Empty(deque<Process*> *runqueue)
 void PRIOScheduler::add_process(Process* p)
 {
     // default value
+    debug(p->dynamic_prio);
     if (p->dynamic_prio == -1)
     {
         p->dynamic_prio = p->static_prio - 1;
@@ -208,8 +210,10 @@ void PRIOScheduler::add_process(Process* p)
 
 Process* PRIOScheduler::get_next_Process()
 {
+
     if(Empty(activeQ) && Empty(expiredQ))
     {
+        debug("activeQ");
         return nullptr;
     }
     if (Empty(activeQ))

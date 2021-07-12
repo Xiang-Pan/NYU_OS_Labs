@@ -218,8 +218,6 @@ void Event::running_preempt_fun()
     log_transition(p, transition_type, timestamp);
     // out.Trace_Preempt(proc, proc->state_ts, ih.verbose, ih.type);
 
-
-
     s->add_process(p);
 
 
@@ -233,6 +231,7 @@ void Event::created_ready_fun()
 {
     // void log_transition(Process* p, Transition_type transition_type, int timestamp)
     log_transition(p, transition_type, timestamp);
+    // debug(cur_running_process == NULL);
     // if (cur_process!= NULL)
     // {
     //     if (ih.preprio == 1 && proc->dynamic_Prio > CURRENT_RUNNING_PROCESS->dynamic_Prio)
@@ -270,7 +269,6 @@ void Event::created_ready_fun()
 void Event::blocked_ready_fun()
 {
      // set p state time
-    
     log_transition(p, transition_type, timestamp);
 
 }
@@ -421,8 +419,3 @@ void Event::running_blocked_fun()
     // }
 // }
 
-
-// void Event::make_transition(Process_STATE pre_state, Process_STATE next_state)
-// {
-
-// }
