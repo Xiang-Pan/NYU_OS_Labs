@@ -293,6 +293,13 @@ int InputHandler::arg_parse()
                     debug(quantum);
                     break;
                 }
+                else if(a == "E")
+                {
+                    scheduler_type = PREPRIO;
+                    sscanf(optarg, "%*c%d:%d", &quantum, &maxprio);
+                    debug(quantum);
+                    break;
+                }
 
                 // S=SRTF
                 // printf("opt is s, oprarg is: %s\n", optarg);

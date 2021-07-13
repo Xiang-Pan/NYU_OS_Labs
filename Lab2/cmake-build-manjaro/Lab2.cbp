@@ -8,43 +8,43 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/tmp/tmp.wCcabccAtB/cmake-build-manjaro"/>
+				<Option working_dir="/tmp/clion/cmake-build-manjaro"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/tmp/tmp.wCcabccAtB/cmake-build-manjaro"/>
+				<Option working_dir="/tmp/clion/cmake-build-manjaro"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/tmp/tmp.wCcabccAtB/cmake-build-manjaro"/>
+				<Option working_dir="/tmp/clion/cmake-build-manjaro"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="sched">
-				<Option output="/tmp/tmp.wCcabccAtB/cmake-build-manjaro/sched" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/tmp/tmp.wCcabccAtB/cmake-build-manjaro"/>
+				<Option output="/tmp/clion/cmake-build-manjaro/sched" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/clion/cmake-build-manjaro"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/tmp/tmp.wCcabccAtB/."/>
+					<Add directory="/tmp/clion/."/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/../../../../include/c++/11.1.0"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/../../../../include/c++/11.1.0/x86_64-pc-linux-gnu"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/../../../../include/c++/11.1.0/backward"/>
@@ -54,20 +54,20 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 sched"/>
-					<CompileFile command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 sched"/>
+					<CompileFile command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="sched/fast">
-				<Option output="/tmp/tmp.wCcabccAtB/cmake-build-manjaro/sched" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/tmp/tmp.wCcabccAtB/cmake-build-manjaro"/>
+				<Option output="/tmp/clion/cmake-build-manjaro/sched" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/clion/cmake-build-manjaro"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/tmp/tmp.wCcabccAtB/."/>
+					<Add directory="/tmp/clion/."/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/../../../../include/c++/11.1.0"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/../../../../include/c++/11.1.0/x86_64-pc-linux-gnu"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/../../../../include/c++/11.1.0/backward"/>
@@ -77,17 +77,17 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 sched/fast"/>
-					<CompileFile command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j20 -f &quot;/tmp/tmp.wCcabccAtB/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 sched/fast"/>
+					<CompileFile command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j20 -f &quot;/tmp/clion/cmake-build-manjaro/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/tmp/tmp.wCcabccAtB/main.cpp">
+		<Unit filename="/tmp/clion/main.cpp">
 			<Option target="sched"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.wCcabccAtB/CMakeLists.txt">
+		<Unit filename="/tmp/clion/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

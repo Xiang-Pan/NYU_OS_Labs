@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "utils.hpp"
 
 
 enum Process_STATE
@@ -24,7 +25,9 @@ class Process
         int CW = 0; //Cpu waiting time
         int FT = -1; //finish time
         int IT = 0; //I/O time
-        // int time_in_prev_state; //
+
+
+        
         int remaining_CB = 0;
         int dynamic_prio = 0;
         int generated_CB = 0;
@@ -35,6 +38,9 @@ class Process
 
         int static_prio;
         // int dynamic_prio;
+
+        int next_time = -1;
+        Event_transition next_transition;
 
 
         

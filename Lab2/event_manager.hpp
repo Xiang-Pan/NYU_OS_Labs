@@ -5,27 +5,30 @@
 using namespace std;
 
 
+// class Event;
+
 class EventManager
 {
     public:
-        EventManager();
+        // friend class Event;
+        // EventManager();
         EventManager(InputHandler* input_handler);
         deque<Event*> event_queue;  // des layer queue
         void set_event_queue(deque<Process*> input_process_queue);
         InputHandler* input_handler;
 
-        // void Initiliaze_Event_Queue(deque<Process*> ProcessList);
-
+        //event operation
         Event* get_event();
         void put_event(Event* e);
-        void rm_event(Process* p);
+        void remove_event(Process* p);
+        
+        //event utils
         int get_next_event_time();
-        Scheduler* s;
 
+
+        Scheduler* s;
         Event * cur_event;
         Process * cur_running_process;
-        // void Simulation();
-
 
         int io_time = 0;
         int finish_time = 0;
@@ -55,10 +58,6 @@ void EventManager::set_event_queue(deque<Process*> input_process_queue)
     }
 }
 
-EventManager::EventManager()
-{
-
-}
 
 
 Event* EventManager::get_event()
@@ -66,7 +65,7 @@ Event* EventManager::get_event()
     // debug
     if(event_queue.empty())
     {
-        debug("event_queue.empty");
+        // debug("event_queue.empty");
         Event* pe = nullptr;
         return pe;
     }   
@@ -76,7 +75,7 @@ Event* EventManager::get_event()
     cur_event = event;
     event->ih = input_handler;
     event->s = s;
-    event->event_manager = this;
+    // event->event_manager = this;
     return event;
 }
 
@@ -94,7 +93,7 @@ void EventManager::put_event(Event* e)
     event_queue.insert(it, e);
 }
 
-void EventManager::rm_event(Process* p)
+void EventManager::remove_event(Process* p)
 {
     int i = 0;
     for(; i < event_queue.size(); i++)
@@ -141,6 +140,7 @@ void EventManager::simulation()
 
         evt->cur_running_process = cur_running_process;
         evt->cur_block_time = cur_block_time;
+        // evt->event_manager = this;
         
         // set event transition
         evt->get_new_state();
@@ -151,6 +151,10 @@ void EventManager::simulation()
 
         //set next event based on cur process
         Event* next_event = evt->next_event;
+        if(evt->preempt_cur_process == true)
+        {
+            remove_event(cur_running_process);
+        }
         if(next_event != nullptr)
         {
             put_event(evt->next_event);
@@ -168,23 +172,16 @@ void EventManager::simulation()
 
         if(call_scheduler) 
         {
-            debug("herer");
-            debug(get_next_event_time());
             if (get_next_event_time() == cur_time)
                 continue;           //process next event from Event queue
             call_scheduler = false; // reset call scheduler
             
             if (cur_running_process == nullptr) 
             {
-                // debug(cur_running_process);
-                // cout<< cur_running_process;
                 cur_running_process = s->get_next_process();
-                // debug(cur_running_process->pid);
 
                 if (cur_running_process == nullptr)
                     continue;
-                
-                debug("come");
 
                 // create event to make this process runnable for same time.
                 Event* e = new Event(cur_running_process, cur_time, TRANS_TO_RUN);

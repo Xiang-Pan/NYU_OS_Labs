@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /tmp/tmp.wCcabccAtB
+CMAKE_SOURCE_DIR = /tmp/clion
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /tmp/tmp.wCcabccAtB/cmake-build-manjaro
+CMAKE_BINARY_DIR = /tmp/clion/cmake-build-manjaro
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/tmp.wCcabccAtB/cmake-build-manjaro/CMakeFiles /tmp/tmp.wCcabccAtB/cmake-build-manjaro//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/clion/cmake-build-manjaro/CMakeFiles /tmp/clion/cmake-build-manjaro//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/tmp.wCcabccAtB/cmake-build-manjaro/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/clion/cmake-build-manjaro/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

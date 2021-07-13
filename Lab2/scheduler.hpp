@@ -11,7 +11,9 @@ enum Scheduler_type
     LCFS,
     SRTF,
     RoundRobin,
-    PRIO
+    PRIO,
+    PREPRIO,
+    ABSTRACT
 };
 
 class Scheduler
@@ -19,7 +21,7 @@ class Scheduler
     public:
         // Scheduler();
         deque<Process*> scheduler_queue;
-        // int preprio = 0;
+        bool is_preemptible = false;
 
         // default inplementation
         virtual void add_process(Process *p)
@@ -31,12 +33,19 @@ class Scheduler
 
         virtual Process* get_next_process()
         {
+            // debug("base_class");
             if(scheduler_queue.size() == 0)
                 return NULL;
             Process* cur_p = scheduler_queue.front();
             scheduler_queue.pop_front();
             return cur_p;
         };
+
+        virtual Scheduler_type get_scheduler_type()
+        {
+            return ABSTRACT;
+        }
+        
         
         virtual string get_scheduler_name()
         {
@@ -56,6 +65,10 @@ class FCFSScheduler: public Scheduler
     public:
         string scheduler_name = "FCFS";
         FCFSScheduler();
+        virtual Scheduler_type get_scheduler_type()
+        {
+            return FCFS;
+        }
         string get_scheduler_name()
         {
             return "FCFS";
@@ -74,6 +87,10 @@ class LCFSScheduler: public Scheduler
         LCFSScheduler()
         {
 
+        }
+        virtual Scheduler_type get_scheduler_type()
+        {
+            return LCFS;
         }
         virtual string get_scheduler_name()
         {
@@ -94,6 +111,11 @@ class SRTFScheduler: public Scheduler
         {
 
         }
+        virtual Scheduler_type get_scheduler_type()
+        {
+            return SRTF;
+        }
+        
         virtual string get_scheduler_name()
         {
             return "SRTF";
@@ -134,7 +156,12 @@ class RoundRobinScheduler: public Scheduler
             quantum = p_quantum;
         }
         int quantum= -1;
-        int preprio = 2;
+        // int preprio = 2;
+        
+        virtual Scheduler_type get_scheduler_type()
+        {
+            return RoundRobin;
+        }
         virtual string get_scheduler_name()
         {
             string name = "RR ";
@@ -152,32 +179,49 @@ class RoundRobinScheduler: public Scheduler
         }
 };
 
-class PRIOScheduler :public Scheduler
+class PRIOScheduler: public Scheduler
 {
     public:
         int quantum = 10000;
         int maxprio = 4;
         deque<Process*>* activeQ;
         deque<Process*>* expiredQ;
+        Scheduler_type scheduler_type;
+
+        virtual Scheduler_type get_scheduler_type()
+        {
+            return scheduler_type;
+        }
         
 
-        void add_process(Process* p);
-        Process* get_next_Process();
+        void add_process(Process* p) override;
+        Process* get_next_process() ;
+
         bool Empty(deque<Process*>* runQueue);
 
         virtual string get_scheduler_name()
         {
-            string name = "PRIO ";
+            string name;
+            if(scheduler_type == PRIO)
+            {
+                name = "PRIO ";
+            }
+            else
+            {
+                name = "PREPRIO ";
+            }
             name += to_string(quantum);
             return name;
         }
 
-        PRIOScheduler(int param_quantum, int param_maxprio)
+        PRIOScheduler(int param_quantum, int param_maxprio, Scheduler_type param_scheduler_type)
         {
             quantum = param_quantum;
             maxprio = param_maxprio;
             activeQ = new deque<Process*>[maxprio];
             expiredQ = new deque<Process*>[maxprio];
+            is_preemptible = true;
+            scheduler_type = param_scheduler_type;
         }
 };
 
@@ -197,7 +241,7 @@ bool PRIOScheduler::Empty(deque<Process*> *runqueue)
 void PRIOScheduler::add_process(Process* p)
 {
     // default value
-    debug(p->dynamic_prio);
+    // debug(p->dynamic_prio);
     if (p->dynamic_prio == -1)
     {
         p->dynamic_prio = p->static_prio - 1;
@@ -208,12 +252,13 @@ void PRIOScheduler::add_process(Process* p)
     return;
 }
 
-Process* PRIOScheduler::get_next_Process()
+Process* PRIOScheduler::get_next_process()
 {
+    // debug("PRIOScheduler::get_next_Process");
 
     if(Empty(activeQ) && Empty(expiredQ))
     {
-        debug("activeQ");
+        // debug("activeQ");
         return nullptr;
     }
     if (Empty(activeQ))
@@ -272,7 +317,11 @@ Scheduler* create_scheduler(Scheduler_type scheduler_type, int quantum = 10000, 
     }
     else if(scheduler_type == PRIO)
     {
-        s = new PRIOScheduler(quantum, maxprio);
+        s = new PRIOScheduler(quantum, maxprio, PRIO);
+    }
+    else if(scheduler_type == PREPRIO)
+    {
+        s = new PRIOScheduler(quantum, maxprio, PREPRIO);
     }
     s->get_scheduler_name();
     debug(s->get_scheduler_name());

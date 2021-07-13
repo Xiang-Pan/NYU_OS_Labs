@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/tmp/tmp.wCcabccAtB/.
+CXX_INCLUDES = -I/tmp/clion/.
 
 CXX_FLAGS = -g -std=gnu++14
 

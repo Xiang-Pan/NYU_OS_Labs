@@ -9,7 +9,7 @@
 using namespace std;
 
 // typedef enum {  } ;
-class EventManager;
+// class EventManager;
 
 //define transition here 
 
@@ -34,6 +34,7 @@ class EventManager;
 
 
 
+// class EventManager;
 
 
 class Event
@@ -44,10 +45,10 @@ public:
     int timestamp;
     int cur_block_time;
     Event_transition transition;
-    EventManager* event_manager;
+    // EventManager* event_manager;
 
-    int next_time;
-    Event_transition next_transition;
+    // int next_time;
+    // Event_transition next_transition;
     
     Process_STATE old_state;
     Process_STATE new_state;
@@ -62,6 +63,8 @@ public:
 
     Event* next_event = nullptr;
     int io_time = 0;
+
+    
     
 
     // int cur_time;
@@ -99,6 +102,11 @@ public:
     void running_preempt_fun();
     void preempt_running_fun();
     bool call_scheduler = false;
+    bool preempt_cur_process = false;
+
+
+
+    void test_preempt();
     // void created_ready_fun();
     // void created_ready_fun();
     // void create_ready();
@@ -172,6 +180,8 @@ void Event::make_transition()
         // ready_running_fun();
         // running_ready_fun();
         transition_type = running_ready;
+        debug("running_ready");
+        // running_ready_fun();
     }
     if(old_state == state_running && new_state == state_blocked)
     {
@@ -195,6 +205,43 @@ void Event::make_transition()
 }
 
 
+
+
+void Event::test_preempt()
+{
+    if (s->get_scheduler_type() != PREPRIO)
+    {
+        return;
+    }
+    
+    // try to preemet
+    if (cur_running_process!= NULL)
+    {
+        log_preemption(p, cur_running_process, timestamp);
+        if(p->dynamic_prio > cur_running_process->dynamic_prio && cur_running_process->next_time != timestamp) 
+        {
+
+            //! begin preemtpt
+            
+
+            // delete cur_running_process feature event
+            preempt_cur_process = true;
+            // event_manager->remove_event(p);
+
+            //calculate the remaing cpu time
+            int delta_time = cur_running_process->next_time - timestamp;
+            cur_running_process->RC = cur_running_process->RC + delta_time;
+            cur_running_process->remaining_CB = cur_running_process->remaining_CB + delta_time; 
+
+            //set to preemtpt state
+            cur_running_process->next_time = timestamp;
+            cur_running_process->next_transition = TRANS_TO_PREEMPT;
+            next_event = new Event(cur_running_process, cur_running_process->next_time, cur_running_process->next_transition);
+        }
+    }
+}
+
+
 void Event::preempt_running_fun()
 {
     ready_running_fun();
@@ -205,21 +252,23 @@ void Event::running_preempt_fun()
 {
     cur_running_process = nullptr;
 
-    // p->dynamic_prio -= 1;
-
-    // if(s->preprio == 2)  //! why 2???
-    // {
-    //     p->dynamic_prio += 1;
-    // }
+    
+    // debug(s->is_preemptible);
+    log_transition(p, transition_type, timestamp);
+    if(s->is_preemptible) 
+    {
+        // debug("is_preemptible");
+        p->dynamic_prio -= 1;
+    }
 
 
 
     p->state = state_preempt;
-    log_transition(p, transition_type, timestamp);
+    
+    // test_preempt();
     // out.Trace_Preempt(proc, proc->state_ts, ih.verbose, ih.type);
 
     s->add_process(p);
-
 
     
     // add to runqueue (no event is generated)
@@ -227,42 +276,15 @@ void Event::running_preempt_fun()
 
 }
 
+
+
 void Event::created_ready_fun()
 {
     // void log_transition(Process* p, Transition_type transition_type, int timestamp)
     log_transition(p, transition_type, timestamp);
+    test_preempt();
     // debug(cur_running_process == NULL);
-    // if (cur_process!= NULL)
-    // {
-    //     if (ih.preprio == 1 && proc->dynamic_Prio > CURRENT_RUNNING_PROCESS->dynamic_Prio)
-    //     {
-    //         flag1 = 1;
-    //         if (CURRENT_RUNNING_PROCESS->nexttime - CURRENT_TIME > 0)
-    //         {
-    //             flag2 = 1;
-    //             eh.remove_event(CURRENT_RUNNING_PROCESS);
-    //             CURRENT_RUNNING_PROCESS->RC = CURRENT_RUNNING_PROCESS->RC + CURRENT_RUNNING_PROCESS->nexttime - CURRENT_TIME;
-    //             CURRENT_RUNNING_PROCESS->remaining_CB = CURRENT_RUNNING_PROCESS->remaining_CB + CURRENT_RUNNING_PROCESS->nexttime - CURRENT_TIME;
-    //             out.Trace_Pre(proc, CURRENT_RUNNING_PROCESS, CURRENT_TIME, ih.verbose, flag1, flag2);
-    //             CURRENT_RUNNING_PROCESS->nexttime = CURRENT_TIME;
-    //             Event* e = new Event(CURRENT_RUNNING_PROCESS, CURRENT_TIME, TRANS_TO_PREEMPT);
-    //             eh.put_event(e);
-                
-    //         }
-    //         else
-    //         {
-    //             out.Trace_Pre(proc, CURRENT_RUNNING_PROCESS, CURRENT_TIME, ih.verbose, flag1, flag2);
-    //         }
-    //     }
-    //     else
-    //     {
-    //         if (ih.preprio == 1)
-    //         {
-    //             out.Trace_Pre(proc, CURRENT_RUNNING_PROCESS, CURRENT_TIME, ih.verbose, flag1, flag2);
-
-    //         }
-    //     }
-    // }
+    
 }
 
 
@@ -270,6 +292,8 @@ void Event::blocked_ready_fun()
 {
      // set p state time
     log_transition(p, transition_type, timestamp);
+    test_preempt();
+
 
 }
 
@@ -297,13 +321,13 @@ void Event::ready_running_fun()
 
     if (p->remaining_CB <= ih->quantum)
     {
-        next_transition = TRANS_TO_BLOCK;
+        p->next_transition = TRANS_TO_BLOCK;
         runtime = p->remaining_CB;
         p->remaining_CB = 0;
     }
     else // else which means the quantum of this process is all used, then it needs to be preempt.
     {
-        next_transition = TRANS_TO_PREEMPT;
+        p->next_transition = TRANS_TO_PREEMPT;
         runtime = ih->quantum;
         p->remaining_CB -= ih->quantum;
     }
@@ -314,11 +338,13 @@ void Event::ready_running_fun()
     }
     // remaining cpu time should be adjusted
     p->RC -= runtime;
-    next_time = timestamp + runtime;
+    p->next_time = timestamp + runtime;
     p->state = state_running;
     log_transition(p, transition_type, timestamp, runtime);
 
-    next_event = new Event(p, next_time, next_transition);
+
+
+    next_event = new Event(p, p->next_time, p->next_transition);
     
 }
 
@@ -339,8 +365,9 @@ void Event::running_blocked_fun()
         p->dynamic_prio = p->static_prio - 1;
 
         //set next event
-        next_time = timestamp + block_time;
-        next_event= new Event(p, next_time, TRANS_TO_READY);
+        p->next_time = timestamp + block_time;
+        p->next_transition = TRANS_TO_READY;
+        next_event= new Event(p, p->next_time, p->next_transition);
 
         if (timestamp < cur_block_time)
         {
@@ -360,7 +387,6 @@ void Event::running_blocked_fun()
 
     cur_running_process = nullptr;
     call_scheduler = true;
-    
     log_transition(p, transition_type, timestamp, block_time);
 
 }
