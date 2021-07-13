@@ -21,7 +21,6 @@ class InputHandler
         {
             
             arg_parse(argc, argv);
-
             inputfile_stream.open((argv[argc-1])); //
             read_input_file();
             
@@ -84,6 +83,7 @@ void InputHandler::read_input_file()
     {
         while(read_input_line() && tokens_[0] == "#")
         {
+            //continue the commend line
         }
         debug_vector(tokens_);
         int process_count = string2int(tokens_[0]);
