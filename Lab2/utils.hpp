@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-06-16 11:55:39
- * @LastEditTime: 2021-07-12 22:05:42
- * @LastEditors: your name
+ * @LastEditTime: 2021-07-13 17:12:18
+ * @LastEditors: Xiang Pan
  * @Description: In User Settings Edit
- * @FilePath: /Lab2/utils.hpp
+ * @FilePath: /Lab2/submissions/utils.hpp
  */
 #pragma once
 
@@ -32,7 +32,6 @@ enum Transition_type
 {
     created_ready,
     ready_running,
-    
     running_blocked,
     blocked_ready,
     running_preempt, // running_ready,

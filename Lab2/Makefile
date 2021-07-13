@@ -8,3 +8,4 @@ sched: main.cpp
 clean:
 	rm -f sched *~
 	rm *.o
+	rm -rf *.gch

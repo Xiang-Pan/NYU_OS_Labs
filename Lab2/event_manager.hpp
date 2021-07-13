@@ -4,9 +4,6 @@
 #include "event.hpp"
 using namespace std;
 
-
-// class Event;
-
 class EventManager
 {
     public:
@@ -229,46 +226,5 @@ void EventManager::summary()
         Average_TurnA,
         Average_CPUW,
         Through_P);
-    
-    // double CPU_U = 100 * (double)Total_CPU_T / (double)Finish_Time;
-    // double IO_U = 100 * (double)IO_Time / (double)Finish_Time;
-    // double Average_TurnA = (double)Total_Turn / (double)Process_List.size();
-    // double Average_CPUW = (double)Total_CPUW / (double)Process_List.size();
-    // double Through_P = (double)Process_List.size() * 100 / (double)Finish_Time;
-
-    // printf("SUM: %d %.2lf %.2lf %.2lf %.2lf %.3lf\n", Finish_Time,
-    //     CPU_U,
-    //     IO_U,
-    //     Average_TurnA,
-    //     Average_CPUW,
-    //     Through_P);
-
 }
 
-
-// void Output::print(deque<Process*> Process_List, int Finish_Time, int IO_Time, string type)
-// {
-//     double Total_Turn = 0;
-//     double Total_CPUW = 0;
-//     double Total_CPU_T = 0;
-//     cout << type << "\n";
-//     for (int i = 0; i < Process_List.size(); i++)
-//     {
-//         Total_Turn += Process_List.at(i)->FT - Process_List.at(i)->AT;
-//         Total_CPUW += Process_List.at(i)->CW;
-//         Total_CPU_T += Process_List.at(i)->TC;
-
-//     double CPU_U = 100 * (double)Total_CPU_T / (double)Finish_Time;
-//     double IO_U = 100 * (double)IO_Time / (double)Finish_Time;
-//     double Average_TurnA = (double)Total_Turn / (double)Process_List.size();
-//     double Average_CPUW = (double)Total_CPUW / (double)Process_List.size();
-//     double Through_P = (double)Process_List.size() * 100 / (double)Finish_Time;
-
-//     printf("SUM: %d %.2lf %.2lf %.2lf %.2lf %.3lf\n", Finish_Time,
-//         CPU_U,
-//         IO_U,
-//         Average_TurnA,
-//         Average_CPUW,
-//         Through_P);
-
-// }
