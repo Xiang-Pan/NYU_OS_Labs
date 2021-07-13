@@ -88,12 +88,16 @@ void InputHandler::read_randomfile()
 //     return 1 + (randvals[ofs] % burst); 
 // }
 
-// int
 // TODO HERE
 int InputHandler::get_random_seed()
 {
     string line;
-    getline(randomfile_stream, line);
+    if(!getline(randomfile_stream, line))
+    {
+        randomfile_stream.clear();                 // clear fail and eof bits
+        randomfile_stream.seekg(0, std::ios::beg); // back to the start!
+        getline(randomfile_stream, line);
+    }
     stringstream ss(line);
     ss >> cur_random_seed;
     return cur_random_seed;
@@ -104,7 +108,6 @@ int InputHandler::get_random_num(int burst)
 {
 
     get_random_seed();
-    // debug(cur_random_seed);
     return 1 + (cur_random_seed % burst);;
 }
 
