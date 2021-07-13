@@ -32,7 +32,6 @@ class Scheduler
             return;
         };
 
-
         virtual Process* get_next_process()
         {
             // debug("base_class");
@@ -130,12 +129,6 @@ class SRTFScheduler: public Scheduler
                 return;
             }
             int remaining_time = p->RC;
-            // auto itrFind = find_if(scheduler_queue.begin(), scheduler_queue.end(), [p] (int remaining_time) { return (p->RC < remaining_time); } );
-
-            // auto itrFind = find_if(scheduler_queue.begin(), scheduler_queue.end(), [](Process* p, int remaining_time)
-            // {
-            //     return p->RC < remaining_time; 
-            // });
 
             long unsigned int i = 0;
             for (; i < scheduler_queue.size(); i++)
@@ -158,7 +151,6 @@ class RoundRobinScheduler: public Scheduler
             quantum = p_quantum;
         }
         int quantum= -1;
-        // int preprio = 2;
         
         virtual Scheduler_type get_scheduler_type()
         {
@@ -257,7 +249,6 @@ void PRIOScheduler::add_process(Process* p)
 Process* PRIOScheduler::get_next_process()
 {
     // debug("PRIOScheduler::get_next_Process");
-
     if(Empty(activeQ) && Empty(expiredQ))
     {
         // debug("activeQ");
@@ -305,7 +296,6 @@ Scheduler* create_scheduler(Scheduler_type scheduler_type, int quantum = 10000, 
     }
     else if(scheduler_type == LCFS)
     {
-        
         s = new LCFSScheduler();
     }
     else if(scheduler_type == SRTF)
@@ -329,18 +319,5 @@ Scheduler* create_scheduler(Scheduler_type scheduler_type, int quantum = 10000, 
     debug(s->get_scheduler_name());
     return s;
 }
-
-
-
-
-
-// class Scheduler
-// {
-// public:
-    
-//     virtual void add_Process(Process* pro) { return; };
-//     virtual Process* get_next_Process() { Process* temp = new Process; return temp; };
-// };
-
 
 

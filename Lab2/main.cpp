@@ -1,3 +1,12 @@
+/*
+ * @Author: Xiang Pan
+ * @Date: 2021-06-15 18:45:29
+ * @LastEditTime: 2021-07-13 16:54:03
+ * @LastEditors: Xiang Pan
+ * @Description: 
+ * @FilePath: /Lab2/main.cpp
+ * xiangpan@nyu.edu
+ */
 #include <iostream>
 #include <ostream>
 #include <stdexcept>
@@ -21,7 +30,6 @@ int main(int argc, char *argv[])
 {
     InputHandler input_handler(argc, argv);
     InputHandler* p_input_handler = &input_handler;
-    // g_input_handler = input_handler;
     int num = input_handler.arg_parse();
     if(argc != (num + 3)) // including the programs
     {
@@ -31,7 +39,6 @@ int main(int argc, char *argv[])
     
     input_handler.create_process_from_input();
     
-
     // debug(event_manager.event_queue.size());
     // debug(event_manager->event_queue.empty());
     EventManager event_manager =  EventManager(p_input_handler);
@@ -44,12 +51,5 @@ int main(int argc, char *argv[])
 
     event_manager.simulation();
     event_manager.summary();
-//    Scheduler* s = new FCFSScheduler();
-//    s->get_next_process();
-//    cout<<s.scheduler_queue;
-//    debug(s->scheduler_queue);
-    // verbose = true;
-    // debug(verbose);
-    // Simulation(s, event_manager);
 }
 

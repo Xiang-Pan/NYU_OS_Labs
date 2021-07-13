@@ -1,3 +1,12 @@
+/*
+ * @Author: Xiang Pan
+ * @Date: 2021-06-15 20:28:07
+ * @LastEditTime: 2021-07-13 16:58:24
+ * @LastEditors: Xiang Pan
+ * @Description: 
+ * @FilePath: /Lab2/process.hpp
+ * xiangpan@nyu.edu
+ */
 #pragma once
 #include <string>
 #include <iostream>
@@ -41,17 +50,9 @@ class Process
 
 
         int static_prio;
-        // int dynamic_prio;
 
         int next_time = -1;
         Event_transition next_transition;
-
-
-        
-        
-        // int nexttime;
-
-        // int created;
         Process_STATE state = state_created;
         Process();
 
@@ -70,11 +71,6 @@ class Process
 
     private:
 
-    // int static_Prio;
-    // int dynamic_Prio;
-    // int timeInPrevState;
-
-
 };
 
 
@@ -84,13 +80,4 @@ Process::Process()
 
 }
 
-    // IT = 0;
-    // CW = 0;
-    // state = STATE_CREATED;
-    // timeInPrevState = 0;
-    // remaining_CB = 0;
-    // static_Prio = 0;
-    // dynamic_Prio = 0;
-    // created = 0;
-    
 

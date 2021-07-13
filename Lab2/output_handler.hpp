@@ -1,12 +1,17 @@
+/*
+ * @Author: Xiang Pan
+ * @Date: 2021-06-21 14:00:56
+ * @LastEditTime: 2021-07-13 16:53:45
+ * @LastEditors: Xiang Pan
+ * @Description: 
+ * @FilePath: /Lab2/output_handler.hpp
+ * xiangpan@nyu.edu
+ */
 #pragma once
 #include "process.hpp"
 #include "event.hpp"
 #include "utils.hpp"
 using namespace std;
-
-
-
-
 
 void log_preemption(Process* p, Process* cur_running_process, int timestamp)
 {
@@ -16,8 +21,6 @@ void log_preemption(Process* p, Process* cur_running_process, int timestamp)
         return;
     }
     bool is_preempt = p->dynamic_prio > cur_running_process->dynamic_prio && cur_running_process->next_time != timestamp;
-
-    
     printf("---> PRIO preemption %d by %d ? %d TS=%d now=%d) ", cur_running_process->pid, p->pid, p->dynamic_prio > cur_running_process->dynamic_prio, cur_running_process->next_time, timestamp);
     if(is_preempt)
     {
@@ -78,34 +81,5 @@ void log_transition(Process* p, Transition_type transition_type, int timestamp, 
             printf("%d %d %d: READY -> RUNNG cb=%d rem=%d prio=%d\n", timestamp, p->pid, p->time_in_prev_state, p->remaining_CB + runtime, p->RC + runtime, p->dynamic_prio);
             break;
         }
-            
     }
-
-    // if (p->created == 0)
-    // {
-    //     printf("%d %d 0: CREATED -> READY\n", timestamp, p->pid);
-    //     p->created = 1;
-    // }
-    // else
-    // {
-    //     printf("%d %d %d: BLOCK -> READY\n", timestamp, p->pid, p->timeInPrevState);
-    // }
 }
-// void Trace_Ready(Process* p, int timestamp, int verbose, int flag1, int flag2)
-// {
-//     if (verbose == 1)
-//     {
-//         if (flag1 == 0 && flag2 == 0)
-//         {
-//             if (p->created == 0)
-//             {
-//                 printf("%d %d 0: CREATED -> READY\n", timestamp, p->pid);
-//                 p->created = 1;
-//             }
-//             else
-//             {
-//                 printf("%d %d %d: BLOCK -> READY\n", timestamp, p->pid, p->timeInPrevState);
-//             }
-//         }
-//     }
-// }

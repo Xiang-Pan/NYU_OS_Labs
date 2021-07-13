@@ -106,7 +106,6 @@ int InputHandler::get_random_seed()
 
 int InputHandler::get_random_num(int burst)
 {
-
     get_random_seed();
     return 1 + (cur_random_seed % burst);;
 }
@@ -131,12 +130,9 @@ vector<string> InputHandler::get_tokens(string line_str,const std::string delim 
 }
 
 
-
 bool InputHandler::read_inputfile()
 {
-    // inputfile_stream.getline
     string line;
-    // int pid = 0;
     bool succ = static_cast<bool>(getline(inputfile_stream, line));
     if(succ)
     {
@@ -144,6 +140,7 @@ bool InputHandler::read_inputfile()
     }
     return succ;
 }
+
 
 int string2int(string s)
 {
@@ -157,10 +154,8 @@ int string2int(string s)
 void InputHandler::create_process_from_input()
 {
     int pid = 0;
-    // vector<string> tokens;
     while(read_inputfile())
     {
-        // tokens = tokens;
         Process* p = new Process();
         p->pid = pid;
         p->AT = string2int(tokens[0]);
@@ -176,13 +171,6 @@ void InputHandler::create_process_from_input()
         pid += 1;
     }
 }
-
-
-
-
-
-
-// extern char *optarg;
 
 int InputHandler::arg_parse()
 {
@@ -239,12 +227,6 @@ int InputHandler::arg_parse()
                 {
                     scheduler_type = PRIO;
                     sscanf(optarg, "%*c%d:%d", &quantum, &maxprio);
-                    // sscanf(optarg, "%d:%d", &quantum, &maxprio);
-                    // debug(optarg);
-                    // if(quantum == 10000)
-                    // {
-                    //     sscanf(optarg, "%d", &quantum);
-                    // }
                     debug(quantum);
                     break;
                 }
@@ -255,13 +237,6 @@ int InputHandler::arg_parse()
                     debug(quantum);
                     break;
                 }
-
-                // S=SRTF
-                // printf("opt is s, oprarg is: %s\n", optarg);
-                
-                // quantum = 
-                
-                // cout<<quantum<<maxproi;
                 break;
             case '?':
                 printf("error optopt: %c\n", optopt);

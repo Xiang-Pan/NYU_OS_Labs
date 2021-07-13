@@ -1,3 +1,12 @@
+/*
+ * @Author: Xiang Pan
+ * @Date: 2021-06-20 17:40:15
+ * @LastEditTime: 2021-07-13 16:57:51
+ * @LastEditors: Xiang Pan
+ * @Description: 
+ * @FilePath: /Lab2/event.hpp
+ * xiangpan@nyu.edu
+ */
 #pragma once
 #include <stdio.h>
 #include <string.h>
@@ -7,35 +16,6 @@
 #include "utils.hpp"
 
 using namespace std;
-
-// typedef enum {  } ;
-// class EventManager;
-
-//define transition here 
-
-
-// enum Transition_type
-// {
-//     created_ready,
-//     ready_running,
-//     running_ready,
-//     running_blocked,
-//     blocked_ready
-// };
-
-// enum Event_transition
-// {
-//     TRANS_TO_READY,
-//     TRANS_TO_RUN,
-//     TRANS_TO_BLOCK,
-//     TRANS_TO_PREEMPT,
-//     TRANS_TO_DONE
-// };
-
-
-
-// class EventManager;
-
 
 class Event
 {
@@ -61,19 +41,13 @@ public:
     Event* next_event = nullptr;
     int io_time = 0;
 
-    
-    
-
-    // int cur_time;
 
     bool operator == (const Process &p) 
     {
         return (this->p->pid == p.pid);
     }
 
-    Event();
-
-    // void Event::make_transition(Process_STATE pre_state, Process_STATE next_state);
+    // Event();
 
     Event(Process* process, int p_timestamp, Event_transition event_transition)
     {
@@ -147,7 +121,6 @@ void Event::make_transition()
     p->time_in_prev_state = timestamp - p->state_ts;
     p->state_ts = timestamp; // set state timestamp
     
-    // void* f;
     // debug(old_state);
     // debug(new_state);
     // debug(transition);
@@ -275,7 +248,6 @@ void Event::created_ready_fun()
     log_transition(p, transition_type, timestamp);
     test_preempt();
     // debug(cur_running_process == NULL);
-    
 }
 
 
@@ -291,20 +263,16 @@ void Event::blocked_ready_fun()
 void Event::ready_running_fun()
 {
     int runtime = 0;
-    // ih = event_manager->input_handler;
-    // // CURRENT_RUNNING_PROCESS = proc;
     p->CW += p->time_in_prev_state;
-    // p->state_ts = timestamp;  // cur_time
-    // // if we do not have a remaining CPU burst then we generate one.
     if (p->remaining_CB == 0)
     {
         p->remaining_CB = ih->get_random_num(p->CB);
         // debug(p->remaining_CB);
         p->generated_CB = p->remaining_CB;
-        // ih->ofs++; //TODO
+        //! SOLVED reading
     }
 
-    // if the remaining cpu burst in this time is less than or equal to the quantum, then the next time is block
+    // quantum remaining, block
     if (p->remaining_CB > p->RC)
     {
         p->remaining_CB = p->RC;
@@ -316,7 +284,7 @@ void Event::ready_running_fun()
         runtime = p->remaining_CB;
         p->remaining_CB = 0;
     }
-    else // else which means the quantum of this process is all used, then it needs to be preempt.
+    else // quantum of this process is all used, be preempt.
     {
         p->next_transition = TRANS_TO_PREEMPT;
         runtime = ih->quantum;
@@ -331,24 +299,22 @@ void Event::ready_running_fun()
     p->RC -= runtime;
     p->next_time = timestamp + runtime;
     p->state = state_running;
+    
     log_transition(p, transition_type, timestamp, runtime);
 
-
-
     next_event = new Event(p, p->next_time, p->next_transition);
-    
 }
 
 void Event::running_blocked_fun()
 {
     int block_time = 0;
-    // if the remaining cpu time is 0 which means it is already done. Then we write done the finisth time and do nothing about I/O
-    if (p->RC <= 0)
+    
+    if (p->RC <= 0) // done
     {
         p->RC = 0;
         p->FT = timestamp;
     }
-    else // which means the process needs I/O
+    else            // which means the process needs I/O
     {
         block_time = ih->get_random_num(p->IO);
         p->state = state_blocked;
@@ -375,10 +341,8 @@ void Event::running_blocked_fun()
         }
     }
 
-
     cur_running_process = nullptr;
     call_scheduler = true;
     log_transition(p, transition_type, timestamp, block_time);
-
 }
 
