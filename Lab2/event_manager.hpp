@@ -21,10 +21,10 @@ class EventManager
         Event* get_event();
         void put_event(Event* e);
         void remove_event(Process* p);
+        deque<Event*>::iterator search_event(Event* e);
         
         //event utils
         int get_next_event_time();
-
 
         Scheduler* s;
         Event * cur_event;
@@ -50,7 +50,7 @@ void EventManager::set_event_queue(deque<Process*> input_process_queue)
     {
         debug("event not empty");
     }
-    for (int i = 0; i < input_process_queue.size(); i++)
+    for (long unsigned int i = 0; i < input_process_queue.size(); i++)
     {
         Event* e = new Event(input_process_queue[i], input_process_queue[i]->AT, TRANS_TO_READY);
         // e->event_manager = this;
@@ -75,27 +75,30 @@ Event* EventManager::get_event()
     cur_event = event;
     event->ih = input_handler;
     event->s = s;
-    // event->event_manager = this;
     return event;
 }
 
-
-void EventManager::put_event(Event* e)
+deque<Event*>::iterator EventManager::search_event(Event* e)
 {
-    // e->event_manager = this;
-    int i = 0;
+    long unsigned int i = 0;
     for (; i < event_queue.size(); i++)
     {
         if (event_queue.at(i)->timestamp > e->timestamp)
             break;
     }
     std::deque<Event*>::iterator it = event_queue.begin() + i;
+    return it;
+}
+
+void EventManager::put_event(Event* e)
+{
+    std::deque<Event*>::iterator it = search_event(e);
     event_queue.insert(it, e);
 }
 
 void EventManager::remove_event(Process* p)
 {
-    int i = 0;
+    long unsigned int i = 0;
     for(; i < event_queue.size(); i++)
     {
         if (event_queue.at(i)->p->pid == p->pid)
@@ -125,27 +128,21 @@ void EventManager::simulation()
     int cur_time = 0;
     int cur_block_time = 0;
     bool call_scheduler = true;
-    // int CURRENT_BLOCK_TIME = 0;
 
     // debug(e);
-    // int CURRENT_BLOCK_TIME = 0;
-    while(evt = get_event())
+    while((evt = get_event()))
     {
         
-        // evt.input_handler = g_input_handler;
-        // cur_running_process = evt->p; // the process works on
-//        cur_time
         cur_time = evt->timestamp;
-//        evt->cur_time = cur_time;
 
         evt->cur_running_process = cur_running_process;
         evt->cur_block_time = cur_block_time;
-        // evt->event_manager = this;
         
         // set event transition
         evt->get_new_state();
         evt->make_transition();
 
+        //set event process result
         cur_block_time = evt->cur_block_time;
         cur_running_process = evt-> cur_running_process;
 
@@ -164,40 +161,34 @@ void EventManager::simulation()
         call_scheduler = evt->call_scheduler;
         io_time += evt->io_time;
         
-
         delete evt; 
         evt = nullptr;
-        
-
 
         if(call_scheduler) 
         {
+            //process next event from Event queue
             if (get_next_event_time() == cur_time)
-                continue;           //process next event from Event queue
-            call_scheduler = false; // reset call scheduler
-            
+            {
+                continue;
+            }
+            call_scheduler = false;     // reset call scheduler
             if (cur_running_process == nullptr) 
             {
                 cur_running_process = s->get_next_process();
 
+                // there is no cur_running_process
                 if (cur_running_process == nullptr)
                     continue;
 
                 // create event to make this process runnable for same time.
-                Event* e = new Event(cur_running_process, cur_time, TRANS_TO_RUN);
+                cur_running_process->next_time = cur_time;
+                cur_running_process->next_transition = TRANS_TO_RUN;
+                Event* e = new Event(cur_running_process, cur_running_process->next_time, cur_running_process->next_transition);
                 put_event(e);
-                
             }
         }
     }
     finish_time = cur_time;
-    
-    
-    
-    // int 
-
-
-    
 }
 
 
@@ -208,7 +199,7 @@ void EventManager::summary()
     double Total_CPU_T = 0;
     int process_num = input_handler->input_process_queue.size();
     cout << s->get_scheduler_name() << endl;
-    for(int i = 0; i < input_handler->input_process_queue.size(); i++)
+    for(long unsigned int i = 0; i < input_handler->input_process_queue.size(); i++)
     {
         Process* tp = input_handler->input_process_queue.at(i);
         Total_Turn += tp->FT - tp->AT;

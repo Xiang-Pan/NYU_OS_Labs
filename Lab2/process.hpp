@@ -1,6 +1,10 @@
 #pragma once
 #include <string>
+#include <iostream>
+#include <ostream>
 #include "utils.hpp"
+
+using namespace std;
 
 
 enum Process_STATE

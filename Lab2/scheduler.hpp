@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <iostream>
+#include <ostream>
 #include <deque>
 #include "process.hpp"
 #include "utils.hpp"
@@ -135,8 +137,8 @@ class SRTFScheduler: public Scheduler
             //     return p->RC < remaining_time; 
             // });
 
-            int i = 0;
-            for (i; i < scheduler_queue.size(); i++)
+            long unsigned int i = 0;
+            for (; i < scheduler_queue.size(); i++)
             {
                 if (scheduler_queue.at(i)->RC > remaining_time)
                     break;
@@ -273,8 +275,8 @@ Process* PRIOScheduler::get_next_process()
             }
         }
     }
-    int index = maxprio-1;
-    for (index; index >= 0; index--)
+    long unsigned int index = maxprio-1;
+    for(; index >= 0; index--)
     {
         if (activeQ[index].size() == 0)
         {

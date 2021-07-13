@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ostream>
 #include <stdexcept>
 #include <stdio.h>
 #include <fstream>
@@ -8,17 +9,13 @@
 #include <vector> 
 #include <regex>
 #include  <unistd.h> //parse args
-// #include "cmdline.h"
-#include "des.hpp"
+// #include "des.hpp"
 #include "scheduler.hpp"
 #include "input_handler.hpp"
 #include "event_manager.hpp"
 #include "utils.hpp"
-// #include "process_manager.hpp"
 
 using namespace std;
-// InputHandler& g_input_handler;
-
 
 int main(int argc, char *argv[])
 {

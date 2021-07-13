@@ -40,26 +40,23 @@ using namespace std;
 class Event
 {
 public:
-    Process* p;
-    // InputHandler &g_input_handler;
-    int timestamp;
-    int cur_block_time;
-    Event_transition transition;
-    // EventManager* event_manager;
 
-    // int next_time;
-    // Event_transition next_transition;
-    
-    Process_STATE old_state;
-    Process_STATE new_state;
+    int timestamp;
+    Event_transition transition;
     Transition_type transition_type;
 
+    //process status
+    Process* p;
+    int cur_block_time;
+    Process_STATE old_state;
+    Process_STATE new_state;
+    
+    //cur running process information
     Process* cur_running_process;
+
+    //manager info
     InputHandler* ih;
     Scheduler* s;
-    // input_process_queue
-    // EventManager* event_manager;
-    // EventManager event_manager;
 
     Event* next_event = nullptr;
     int io_time = 0;
@@ -174,15 +171,15 @@ void Event::make_transition()
         transition_type = ready_running;
         ready_running_fun();
     }
-    if(old_state == state_running && new_state == state_ready)
-    {
-        // debug("running_ready");
-        // ready_running_fun();
-        // running_ready_fun();
-        transition_type = running_ready;
-        debug("running_ready");
-        // running_ready_fun();
-    }
+    // if(old_state == state_running && new_state == state_ready)
+    // {
+    //     // debug("running_ready");
+    //     // ready_running_fun();
+    //     // running_ready_fun();
+    //     transition_type = running_ready;
+    //     debug("running_ready");
+    //     // running_ready_fun();
+    // }
     if(old_state == state_running && new_state == state_blocked)
     {
         transition_type = running_blocked;
@@ -218,12 +215,10 @@ void Event::test_preempt()
     if (cur_running_process!= NULL)
     {
         log_preemption(p, cur_running_process, timestamp);
+        // if(p->dynamic_prio > cur_running_process->dynamic_prio && cur_running_process->next_time != timestamp) 
         if(p->dynamic_prio > cur_running_process->dynamic_prio && cur_running_process->next_time != timestamp) 
         {
-
             //! begin preemtpt
-            
-
             // delete cur_running_process feature event
             preempt_cur_process = true;
             // event_manager->remove_event(p);
@@ -265,12 +260,8 @@ void Event::running_preempt_fun()
 
     p->state = state_preempt;
     
-    // test_preempt();
-    // out.Trace_Preempt(proc, proc->state_ts, ih.verbose, ih.type);
-
     s->add_process(p);
 
-    
     // add to runqueue (no event is generated)
     call_scheduler = true;
 
@@ -390,58 +381,4 @@ void Event::running_blocked_fun()
     log_transition(p, transition_type, timestamp, block_time);
 
 }
-
-
-// void Event::run(int cur_time)
-// {
-    // int time_in_prev_state = cur_time - p->state_ts;
-    // next_state = transition; 
-    // switch(transition) 
-    // { 
-
-        // case TRANS_TO_READY:
-        // {
-
-        //     // must come from BLOCKED or from PREEMPTION 
-        //     // must add to run queue
-        //     // cur_p->state_ts = cur_time; //set process time
-        //     // Trace_Ready(proc, CURRENT_TIME, ih.verbose, flag1, flag2);
-
-        //     // proc->state_ts = CURRENT_TIME;
-        // }
-        // case TRANS_TO_RUN:
-        // {
-
-        // }
-        // case TRANS_TO_BLOCK:
-        // {
-
-        // }
-        // case TRANS_TO_PREEMPT:
-        // {
-
-        // }
-    // }
-    // post process
-    // delete evt; 
-    // evt = nullptr;
-
-    // call scheduler
-    // if (call_scheduler) 
-    // {
-    //     if (event_manager.get_next_event_time() == cur_time)
-    //     {
-    //         continue; //process next event from Event queue
-    //     }
-    //     call_scheduler = false; // reset global flag
-    //     if (cur_process == nullptr) 
-    //     {
-    //         cur_process = s->get_next_process();
-    //         if (cur_process == nullptr)
-    //             continue;
-    //         Event* e = new Event(cur_process, cur_time, TRANS_TO_RUN);
-    //         event_manager.put_event(e);
-    //     }
-    // }
-// }
 

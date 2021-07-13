@@ -5,14 +5,18 @@
 using namespace std;
 
 
-bool log_preemption(Process* p, Process* cur_running_process, int timestamp)
+
+
+
+void log_preemption(Process* p, Process* cur_running_process, int timestamp)
 {
     // ---> PRIO preemption 1 by 2 ? 0 TS=97 now=94) --> NO
-    bool is_preempt = p->dynamic_prio > cur_running_process->dynamic_prio && cur_running_process->next_time != timestamp;
     if(!verbose)
     {
-        return false;
+        return;
     }
+    bool is_preempt = p->dynamic_prio > cur_running_process->dynamic_prio && cur_running_process->next_time != timestamp;
+
     
     printf("---> PRIO preemption %d by %d ? %d TS=%d now=%d) ", cur_running_process->pid, p->pid, p->dynamic_prio > cur_running_process->dynamic_prio, cur_running_process->next_time, timestamp);
     if(is_preempt)
@@ -23,8 +27,7 @@ bool log_preemption(Process* p, Process* cur_running_process, int timestamp)
     {
         printf("--> NO\n");
     } 
-    
-    return is_preempt;
+    return;
 }
 
 

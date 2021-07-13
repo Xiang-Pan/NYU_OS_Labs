@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-06-16 11:55:39
+ * @LastEditTime: 2021-07-12 22:05:42
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /Lab2/utils.hpp
+ */
 #pragma once
 
 
@@ -5,7 +13,7 @@ extern bool verbose = false;
 
 
 #define VNAME(name) (#name)
-#define debugging_enabled true 
+#define debugging_enabled false 
 #define debug(x) do { \
   if (debugging_enabled) { std::cerr << VNAME(x)<<":"<< x << std::endl; }\
 } while (0)
@@ -24,10 +32,10 @@ enum Transition_type
 {
     created_ready,
     ready_running,
-    running_ready,
+    
     running_blocked,
     blocked_ready,
-    running_preempt,
+    running_preempt, // running_ready,
     preempt_running
 };
 
@@ -37,5 +45,5 @@ enum Event_transition
     TRANS_TO_RUN,
     TRANS_TO_BLOCK,
     TRANS_TO_PREEMPT,
-    TRANS_TO_DONE
+    // TRANS_TO_DONE
 };
