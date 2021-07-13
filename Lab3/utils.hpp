@@ -1,3 +1,12 @@
+/*
+ * @Author: Xiang Pan
+ * @Date: 2021-06-23 18:01:41
+ * @LastEditTime: 2021-07-12 23:42:42
+ * @LastEditors: Xiang Pan
+ * @Description: 
+ * @FilePath: /Lab3/utils.hpp
+ * xiangpan@nyu.edu
+ */
 #pragma once
 #include <string>
 
@@ -12,7 +21,7 @@ using namespace std;
 
 #define debug_vector(v) do { \
     if (debugging_enabled) {\
-        for(int i=0; i<v.size(); i++)\
+        for(long unsigned int i=0; i<v.size(); i++)\
         {\
             std::cerr << i <<":"<< v[i] << std::endl;\
         }\
@@ -44,7 +53,4 @@ bool string2bool(string s)
         return true;
     }
     return false;
-    // except()
-    
-
 }
