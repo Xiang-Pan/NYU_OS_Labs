@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-06-23 18:01:41
- * @LastEditTime: 2021-07-13 04:57:56
+ * @LastEditTime: 2021-07-14 02:06:30
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab4/utils.hpp
@@ -10,7 +10,8 @@
 #pragma once
 #include <string>
 #include <iostream>
-
+#include <ostream>
+#include <sstream>
 using namespace std;
 
 
