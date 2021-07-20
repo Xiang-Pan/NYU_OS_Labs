@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-06-23 17:42:26
- * @LastEditTime: 2021-07-19 01:25:35
+ * @LastEditTime: 2021-07-19 18:02:45
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab3/output_handler.hpp
@@ -28,7 +28,6 @@ void log_operation(int inst_count, char op, int vpage)
     }
 }
 
-
 void log_segprot()
 {
     if(output_O) 
@@ -36,7 +35,6 @@ void log_segprot()
         cout << " SEGPROT" << endl;
     }
 }
-
 
 void log_IN()
 {

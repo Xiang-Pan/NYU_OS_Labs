@@ -1,3 +1,0 @@
-/home/xiangpan/tmp/tmp.8dnUO5QUoj/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/xiangpan/tmp/tmp.8dnUO5QUoj/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/xiangpan/tmp/tmp.8dnUO5QUoj/cmake-build-debug/CMakeFiles/mmu.dir

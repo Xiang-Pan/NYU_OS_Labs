@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-06-23 17:42:15
- * @LastEditTime: 2021-07-19 01:30:57
+ * @LastEditTime: 2021-07-20 00:59:26
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab3/input_handler.hpp
@@ -42,11 +42,16 @@ class InputHandler
             int arg_num = arg_parse(argc, argv);
             // debug(arg_num);
             // debug(argc);
-            if((arg_num + 3) != argc)
+            if((arg_num + 2) != argc)
             {
-                cout<<"please input file name"<<endl;
+                debug(arg_num);
+                debug(argc);
+                debug("please input file name");
+                // cout<<<<endl;
             }
-            inputfile_stream.open((argv[argc-1])); //
+            inputfile_stream.open((argv[argc-2])); //
+            randomfile_stream.open((argv[argc-1])); //
+            read_randomfile();
             read_input_file();
             
             // Pager(); 
@@ -61,11 +66,12 @@ class InputHandler
 
         int line_num_ = 0;
         int process_count_ = -1;
-        int contexts_witches_ = 0;
+        int context_switches_ = 0;
         int process_exits_ = 0;
         int cycles_ = 0;
 
         ifstream inputfile_stream;
+        // ifstream randomfile_stream;
 
         // int frame_num = -1;
         frame_t** frame_table; // frame_table
@@ -78,12 +84,13 @@ class InputHandler
         int vpage;
         // pte_t page_table[MAX_VPAGES];
 
-         
-
 
         void simulate();
         void summary();
 };
+
+
+
 
 vector<string> InputHandler::get_tokens(string line_str,const std::string delim = " \t\n")
 {
@@ -165,6 +172,7 @@ bool InputHandler::read_instruction()
         vpage = string2int(tokens_[1]);
         // cout<<line_num_<<":"<<op<<vpage<<endl;
         inst_count_ += 1;
+        kInstCount = inst_count_;
         return true;
     }
     else
@@ -180,14 +188,17 @@ void InputHandler::simulate()
 {
     
     debug("simulation");
-    Process& cur_process = p_process_manager_->get_cur_process();
+    
     if(read_input_line() && tokens_[tokens_.size() - 2] == "simulation")
     {
         // debug_vector(tokens_);
         //! begin simulation
+        bool page_fault_handler_result = true;
         while(read_instruction())
-        { 
+        {
+            Process& cur_process = p_process_manager_->get_cur_process(); 
             log_operation(inst_count_, op, vpage);
+            page_fault_handler_result = true;
             
             // get pte
             pte_t& pte = cur_process.get_pte(vpage);    // in reality this is done by hardware
@@ -199,25 +210,25 @@ void InputHandler::simulate()
                 {
                     p_process_manager_->cur_pid = vpage; // pid actually 
                     total_cost += kContextSwitches;
-                    // COST += COST_TABLE::SWITCHES;
-                    contexts_witches_ += 1;
+                    context_switches_ += 1;
                     break;
                 }
-                // case 'e':
-                // {
-                //     process_exits_ += 1;
-                //     break;
-                // }
                 case 'r':
                 {
                     total_cost += kReadWrite;
-                    // pte.referenced = true;
+                    pte.referenced = true;
 
                     //check present first
                     if(pte.present == false) 
                     {
-                        p_pager_->page_fault_handler(pte, vpage, cur_process);
+                        page_fault_handler_result = p_pager_->page_fault_handler(pte, vpage, cur_process);
+                        if(page_fault_handler_result == false)
+                        {
+                            break;
+                        }
+                        // break;
                     }
+                    pte.referenced = true;
 
                     if(pte.in_VMA == false)
                     {
@@ -225,7 +236,6 @@ void InputHandler::simulate()
                         total_cost += kSegprot;
                         log_segprot();
                     }
-                    pte.referenced = true;
                     break;
 
 
@@ -235,14 +245,18 @@ void InputHandler::simulate()
                 {
                     total_cost += kReadWrite;
 
-                    //check present first
+                    //check present fir
+                    pte.referenced = true;
                     if(pte.present == false)  // is valid
                     {
                         pte.modified = false;
-                        p_pager_->page_fault_handler(pte, vpage,cur_process);
-                        // break;
+                        page_fault_handler_result = p_pager_->page_fault_handler(pte, vpage,cur_process); // this may reset pte
+                        if(page_fault_handler_result == false)
+                        {
+                            break;
+                        }
                     }
-                    
+                    pte.referenced = true;
                     if(pte.write_protected)
                     {
                         log_segprot();
@@ -251,35 +265,35 @@ void InputHandler::simulate()
                     }
                     else
                     {
+                        
                         pte.modified = true;
-                        pte.referenced = true;
                     }
-                    // pte.referenced = true;
                     break;
                 }
                 case 'e':
                 {
                     process_exits_ += 1;
-                    // cout << "EXIT current process " << vpage << endl;
+                    cout << "EXIT current process " << vpage << endl;
+                    total_cost += kProcessExits;
+                    cur_process.umap_all();
                     break;
+                }
+            }
+            if(output_current_pagetable_after_instruction) // x
+            {
+                if(op == 'c' or op == 'e')
+                {
+                    continue;
+                }
+                if(page_fault_handler_result)
+                {
+                    cur_process.print_page_table();
                 }
             }
             if(output_framtable_after_instruction)
             {
-                // print_frame_table();
-                // Output_FrameTable(frametable);
+                print_frame_table();
             }
-            // if(output_current_pagetable_after_instruction)
-            // {
-
-            // }
-            if(output_current_pagetable_after_instruction) // x
-            {
-                cur_process.print_page_table();
-                // print_page_table();
-            }
-            // log_operation_result(pte, process_manager->process_vec);
-            // p_process_manager_->print_process_vec();
         }
     }
 
@@ -291,8 +305,6 @@ int InputHandler::arg_parse(int argc, char* argv[])
     int num = 0;
     int ch;
     const char *optstring = "f:a:o:"; 
-    // string a;
-    // string param;
     string opt;
     while ((ch = getopt(argc, argv, optstring)) != -1) 
     {
@@ -316,9 +328,19 @@ int InputHandler::arg_parse(int argc, char* argv[])
                     case 'f':
                         p_pager_ = new FIFOPager(p_process_manager_);
                         break;
-                    
+                    case 'r':
+                        p_pager_ = new RandomPager(p_process_manager_);
+                        break;
+                    case 'e':
+                        p_pager_ = new NRUPager(p_process_manager_);
+                        break;
+                    case 'c':
+                        p_pager_ = new ClockPager(p_process_manager_);
+                        break;
+                    case 'w':
+                        p_pager_ = new WorkingSetPager(p_process_manager_);
+                        break;
                 }
-                
                 break;
             }
             case 'o':
@@ -342,7 +364,7 @@ int InputHandler::arg_parse(int argc, char* argv[])
                             output_summary = true;
                             break;
                         case 'a':
-                            output_aging_info = true;
+                            output_aging_info = true; // a 
                             break;
                         case 'f':
                             output_framtable_after_instruction = true; // after each instruction
@@ -385,18 +407,15 @@ void InputHandler::summary()
         p_process_manager_->print_all_process_stats();
 
         cout << "TOTALCOST " << (inst_count_+1) << " "
-                             << contexts_witches_ << " "
+                             << context_switches_ << " "
                              << process_exits_ << " "
                              << total_cost << " "
                              << sizeof(pte_t) << endl;
     }
-        // printf("TOTALCOST %lu %lu %lu %llu\n", (inst_count_ + 1), contexts_witches_, total_cost, process_exits_);
+        // printf("TOTALCOST %lu %lu %lu %llu\n", (inst_count_ + 1), context_switches_, total_cost, process_exits_);
         
         // PROC[0]: U=10 M=26 I=0 O=4 FI=0 FO=0 Z=26 SV=0 SP=0
         // TOTALCOST 31 1 0 26400 4
 		// Output_stats(processQueue);
 		// Output_Summary();
 }
-    // print_process
-
-    

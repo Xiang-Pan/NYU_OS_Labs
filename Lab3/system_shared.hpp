@@ -1,16 +1,16 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-07-12 23:42:26
- * @LastEditTime: 2021-07-19 01:21:13
+ * @LastEditTime: 2021-07-20 00:31:04
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab3/system_shared.hpp
  * xiangpan@nyu.edu
  */
 #pragma once
-
-// #include "process_manager.hpp"
-
+#include <sstream>
+#include <iostream>
+using namespace std;
 
 // #define MAX_FRAMES 1024
 // #define MAX_VPAGES 1024
@@ -20,6 +20,7 @@ typedef unsigned int vpage_index_type;
 const int kPageTableSize = 64;
 const int kMaxFrameTableSize = 64;
 frame_index_type frame_table_size = 0;
+int kInstCount = 0;
 
 
 //32 bit max
@@ -38,14 +39,29 @@ typedef struct pte_t
 	}
 } pte_t;
 
+void reset_pte(pte_t& pte)
+{
+	pte.present = false;
+	pte.write_protected = false;
+	pte.modified = false;
+	pte.referenced = false;
+	pte.in_VMA = false;
+	pte.paged_out = false;
+	pte.file_mapped = false;
+}
+
 typedef struct frame_t
 {
 	frame_index_type frame_index;
 	vpage_index_type vmp;
 	int pid;
 	unsigned mapped : 1;
-	unsigned long long currenttime;
-	unsigned age : 32;
+	// unsigned long long currenttime;
+	unsigned int age : 32;
+	// unsigned int age;
+	frame_t(): age(0x00000000)
+	{
+	}
 } frame_t;
 
 frame_t frame_table[kMaxFrameTableSize];
@@ -83,8 +99,44 @@ bool output_summary = false;
 bool output_current_pagetable_after_instruction = false; // x 
 bool output_all_pagetable_after_instruction = false;     // y
 bool output_framtable_after_instruction = false;         // f
-bool output_aging_info = false;                         // aging
+bool output_aging_info = false;                          // aging
 
+
+ifstream randomfile_stream;
+int cur_random_seed = 0;
+int total_random_count = 0;
+
+void read_randomfile()
+{
+    string line;
+    getline(randomfile_stream, line);
+    stringstream ss(line);
+    ss >> total_random_count;
+}
+
+
+int get_random_seed()
+{
+    string line;
+    if(!getline(randomfile_stream, line))
+    {
+        randomfile_stream.clear();                 // clear fail and eof bits
+        randomfile_stream.seekg(0, std::ios::beg); // back to the start!
+		read_randomfile();
+        getline(randomfile_stream, line);
+    }
+    stringstream ss(line);
+    ss >> cur_random_seed;
+    return cur_random_seed;
+}
+
+int get_random_num()
+{
+    get_random_seed();
+	// debug(cur_random_seed);
+    int burst = frame_table_size;
+    return (cur_random_seed % burst);;
+}
 
 pte_t& get_pte_by_frame(frame_t& f)
 { 

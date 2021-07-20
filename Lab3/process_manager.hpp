@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-06-28 19:19:14
- * @LastEditTime: 2021-07-18 23:31:42
+ * @LastEditTime: 2021-07-19 17:56:52
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab3/process_manager.hpp
@@ -45,7 +45,6 @@ class ProcessManager
             {
                 p.print_stats();
             }
-            
         }
 };
 

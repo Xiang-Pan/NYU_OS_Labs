@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/mmu.dir/main.cpp.o -o mmu 

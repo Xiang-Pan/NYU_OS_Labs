@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-06-28 19:02:31
- * @LastEditTime: 2021-07-19 01:30:26
+ * @LastEditTime: 2021-07-19 18:46:12
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab3/process.hpp
@@ -113,15 +113,30 @@ class Process
             return page_table_[vpage];
         }
 
+        void umap_all()
+        {
+            for(size_t i = 0; i < kPageTableSize; i++)
+            {
+                pte_t& pte = page_table_[i];
+                if(pte.present)
+                {
+                    umap(i, true);
+                }
+                else
+                {
+                    reset_pte(pte);
+                }
 
-        void umap(unsigned int umap_vpage)
+            }
+        }
+
+
+        void umap(unsigned int umap_vpage, bool is_exit = false)
         {
             log_UMAP(pid_, umap_vpage);
             unmaps_ += 1;
             total_cost += kUmaps;
             pte_t& umap_pte = get_pte(umap_vpage);
-            umap_pte.present = false;
-            umap_pte.referenced = false;
 
             if(umap_pte.modified) 
             {
@@ -134,16 +149,37 @@ class Process
                 }
                 else
                 {
-                    log_OUT();
-                    outs_ += 1;
-                    total_cost += kOuts;
+                    if(is_exit)
+                    {
+                        
+                    }
+                    else
+                    {
+                        log_OUT();
+                        outs_ += 1;
+                        total_cost += kOuts;
+                    }
+
                 }
-                // umap_pte.paged_out = !umap_pte.file_mapped;
-                // if(output_O) 
-                // {
-                //     cout << (umap_pte.file_mapped ? " FOUT" : " OUT") << endl;
-                // }
             }
+            if(is_exit)
+            {
+                reset_pte(umap_pte);
+//                cout<<"reset"<<umap_pte.paged_out<<page_table_[umap_vpage].paged_out;
+                // umap_pte.paged_out = false;
+                frame_table[umap_pte.physical_frame].mapped = false;
+                frame_table_free_pool.push_back(umap_pte.physical_frame);
+            }
+            else
+            {
+                bool paged_out = umap_pte.paged_out;
+                reset_pte(umap_pte);
+                umap_pte.paged_out = paged_out;
+            }
+           
+            // umap_pte.modified = false;
+            // umap_pte.present = false;
+            // umap_pte.referenced = false;
         }
 
 
@@ -169,38 +205,38 @@ class Process
 
 
 // VMA output
-std::ostream &operator<<( std::ostream &output, const pte_t &pte )
-{ 
-    if (pte.present) 
-    {
-        output 
-        << (pte.referenced ? "R" : "-")
-        << (pte.modified ? "M" : "-")
-        << (pte.paged_out ? "S " : "- ");
-    }
-    else 
-    {
-        output << (pte.paged_out ? "# " : "* ");
-    }
-    return output;
-}
+// std::ostream &operator<<( std::ostream &output, const pte_t &pte )
+// { 
+//     if (pte.present) 
+//     {
+//         output 
+//         << (pte.referenced ? "R" : "-")
+//         << (pte.modified ? "M" : "-")
+//         << (pte.paged_out ? "S " : "- ");
+//     }
+//     else 
+//     {
+//         output << (pte.paged_out ? "# " : "* ");
+//     }
+//     return output;
+// }
 
-ostream& operator << (ostream& output, const vector<pte_t>& page_table) 
-{
-    for (size_t i = 0; i < page_table.size(); i++) 
-    {
-        const pte_t& pte = page_table[i];
-        if (pte.present) 
-        {
-            output << i << ":" << pte;
-        }
-        else 
-        {
-            output << (pte.paged_out ? "# " : "* ");
-        }
-    }
-    return output;
-}
+// ostream& operator << (ostream& output, const vector<pte_t>& page_table) 
+// {
+//     for (size_t i = 0; i < page_table.size(); i++) 
+//     {
+//         const pte_t& pte = page_table[i];
+//         if (pte.present) 
+//         {
+//             output << i << ":" << pte;
+//         }
+//         else 
+//         {
+//             output << (pte.paged_out ? "# " : "* ");
+//         }
+//     }
+//     return output;
+// }
 
 
 // ostream& operator << (ostream& os, const vector<Frame>& frame_table) {
