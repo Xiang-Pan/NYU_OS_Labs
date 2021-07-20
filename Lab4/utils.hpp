@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-06-23 18:01:41
- * @LastEditTime: 2021-07-14 02:06:30
+ * @LastEditTime: 2021-07-20 03:25:28
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab4/utils.hpp
@@ -37,6 +37,13 @@ int string2int(string s)
     int x = 0;
     ss >> x;
     return x;
+}
+
+float string2float(string s)
+{
+    std::string::size_type sz;     // alias of size_t
+    float f = std::stof (s,&sz);
+    return f;
 }
 
 bool string2bool(string s)
