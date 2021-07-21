@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-06-23 18:01:41
- * @LastEditTime: 2021-07-20 03:25:28
+ * @LastEditTime: 2021-07-20 19:00:38
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab4/utils.hpp
@@ -63,3 +63,6 @@ bool string2bool(string s)
     }
     return false;
 }
+
+template<typename T>
+T& createNullRef() { return *static_cast<T*>(nullptr); }

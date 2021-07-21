@@ -1,0 +1,3 @@
+/home/xiangpan/tmp/tmp.afEjyQKBvH/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/xiangpan/tmp/tmp.afEjyQKBvH/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/xiangpan/tmp/tmp.afEjyQKBvH/cmake-build-debug/CMakeFiles/iosched.dir

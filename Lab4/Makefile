@@ -7,5 +7,5 @@ iosched: main.cpp
 	$(CC) $(CFLAGS) main.cpp -o iosched
 
 clean:
-	rm -f mmu *~
+	rm -f iosched *~
 	rm *.o

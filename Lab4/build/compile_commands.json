@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/xiangpan/Labs/NYU_OS_Labs/Lab4/build",
+  "command": "/usr/bin/g++ -I../. -g -std=gnu++14 -o CMakeFiles/iosched.dir/main.cpp.o -c /home/xiangpan/Labs/NYU_OS_Labs/Lab4/main.cpp",
+  "file": "/home/xiangpan/Labs/NYU_OS_Labs/Lab4/main.cpp"
+}
+]

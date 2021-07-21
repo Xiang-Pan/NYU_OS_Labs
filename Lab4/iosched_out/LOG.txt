@@ -1,0 +1,1 @@
+gradeit.sh ./lab4_ref ../iosched_out ../iosched_out/LOG.txt
