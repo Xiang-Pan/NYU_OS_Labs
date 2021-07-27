@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-06-23 17:42:26
- * @LastEditTime: 2021-07-19 18:02:45
+ * @LastEditTime: 2021-07-27 18:54:28
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab3/output_handler.hpp
@@ -117,10 +117,7 @@ void log_operation_result(pte_t& pte, vector<Process>& process_vec)
     {
         if(pte.in_VMA)
         {
-            // for(Process &p : process_vec)
-            // {
-            //     cout << "PT[" << p.pid_ << "]: " << p.page_table_ << endl;
-            // }
+            
         }
 
     }
@@ -132,16 +129,6 @@ void log_operation_result(pte_t& pte, vector<Process>& process_vec)
     {
         
     }
-
-    
-    // else if (OPTION_x && pte.vma_valid) {
-    //     cout << "PT[" << CURRENT_PID << "]: "
-    //             << current_process().page_table << endl;
-    // }
-    // if (OPTION_f && pte.vma_valid) {
-    //     cout << "FT: " << frame_table << endl;
-    // }
-    
 }
 
 void print_frame_table()
