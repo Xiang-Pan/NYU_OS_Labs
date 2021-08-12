@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-07-20 02:25:00
- * @LastEditTime: 2021-07-21 05:06:22
+ * @LastEditTime: 2021-08-12 19:27:55
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab4/io_scheduler.hpp
@@ -22,6 +22,7 @@ class IOScheduler
         
         queue<IORequest*> all_requests_queue_;
         vector<IORequest*> arrived_requests_vec_;
+        deque<IORequest*> active_queue_;
         deque<IORequest*> add_queue_;
         // int all_requests_vec_index_ = 0;
 
@@ -189,14 +190,11 @@ IORequest* LOOKIOScheduler::get_next_io_request()
     bool changed = false;
     int index = -1;
 
-
     if(kCurDirection == -2)
     {
         int target_track = active_queue_[0]->track_;
         kCurDirection = (target_track > kCurTrack) ? 1 : -1;
     }
-
-    // if(kCurDirection == )
 
     if(kCurDirection == 1)
     {
@@ -216,11 +214,8 @@ IORequest* LOOKIOScheduler::get_next_io_request()
             changed = true;
         }
     }
-    // int next_direction = (changed ? (-kCurDirection) : kCurDirection);
     next_io_request = active_queue_[index];
 
-    // print_IORequest_Vectors(high_vector);
-    // print_IORequest_Vectors(low_vector);
     if(kDebugQueue)
     {
         int next_direction = (changed ? (-kCurDirection) : kCurDirection);
@@ -239,8 +234,6 @@ IORequest* LOOKIOScheduler::get_next_io_request()
     active_queue_.erase(it);
     return next_io_request;
 }
-
-
 
 
 // Circular LOOK
@@ -281,7 +274,6 @@ IORequest* CLOOKIOScheduler::get_next_io_request()
     vector<IORequest*> diff_direction_vec;
 
     // vctor<IORequest*> next_io_request_vector;
-
 
     // set init direction
     if(kCurDirection == -2)
@@ -361,7 +353,6 @@ IORequest* CLOOKIOScheduler::get_next_io_request()
         int next_direction = (changed ? (-kCurDirection) : kCurDirection);
         // debug(next_direction);
         auto& next_list = (changed ? diff_direction_vec : same_direction_vec);
-        // next_io_request = (next_direction == 1) ? active_queue_[lowest_high_index] : active_queue_[highest_low_index];
         cout << "\tGet: (";
         print_IORequest_Vectors(next_list);
         cout << ") --> " << next_io_request->rid_ << " dir=" << (next_direction) << endl;
@@ -374,12 +365,10 @@ IORequest* CLOOKIOScheduler::get_next_io_request()
 }
 
 
-
-
 class FLOOKIOScheduler: public LOOKIOScheduler
 {
     public:
-        deque<IORequest*> active_queue_;
+        // deque<IORequest*> active_queue_;
         virtual void add_io_request(IORequest* p);
         virtual IORequest* get_next_io_request();
         virtual bool empty()

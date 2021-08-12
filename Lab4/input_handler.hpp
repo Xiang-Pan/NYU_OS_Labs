@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-07-14 02:04:44
- * @LastEditTime: 2021-07-21 05:05:49
+ * @LastEditTime: 2021-08-12 19:44:14
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab4/input_handler.hpp
@@ -44,13 +44,12 @@ class InputHandler
         vector<string> get_tokens(string line_str,const std::string delim);
 
 
-        int numio_;
-        int maxtracks_;
-        float lambda_;
+        long numio_;
+        long maxtracks_;
+        double lambda_;
 
-
-        int time_;
-        int track_;
+        unsigned long time_;
+        long track_;
 
 
 
@@ -157,10 +156,13 @@ void InputHandler::read_input_file()
             // debug_vector(tokens_);
             //continue the commend line
         }
-
-    //     // debug_vector(tokens_);
-    //     // process_count_ = string2int(tokens_[0]);
     }
+    else
+    {
+        // do not have the input header
+        inputfile_stream.seekg(0, ios::beg);
+    }
+
 }
 
 
@@ -289,13 +291,13 @@ void InputHandler::simulate()
             {
                 p_cur_io_request->end_time_ = kTime;
                 
-                int wait_time = p_cur_io_request->start_time_ - p_cur_io_request->arrive_time_;
+                long wait_time = p_cur_io_request->start_time_ - p_cur_io_request->arrive_time_;
                 if (wait_time > max_waittime)
                 {
                     max_waittime = wait_time;
                 }
                 total_waittime += wait_time;
-                int turn_aroundtime = p_cur_io_request->end_time_ - p_cur_io_request->arrive_time_;
+                long turn_aroundtime = p_cur_io_request->end_time_ - p_cur_io_request->arrive_time_;
                 total_turnaround_time += turn_aroundtime;
                 log_finish(p_cur_io_request);
                 p_cur_io_request = nullptr;
@@ -303,7 +305,7 @@ void InputHandler::simulate()
             }
             else  // get the io
             {
-                int target_track = p_cur_io_request->track_;
+                long target_track = p_cur_io_request->track_;
                 kCurDirection = (target_track > kCurTrack) ? 1 : -1;
                 kCurTrack += kCurDirection;
                 total_movement += 1;
@@ -349,28 +351,3 @@ void InputHandler::summary()
 	avg_waittime = (double)total_waittime / requests_count;
     printf("SUM: %d %d %.2lf %.2lf %d\n", total_time, total_movement, avg_turnaround, avg_waittime,  max_waittime);
 }
-
-
-// void OutputHandler::PrintIORequest()
-// {
-// 	int waittime = 0;
-// 	int turnaroundtime = 0;
-// 	while (!InputIOqueue.empty())
-// 	{
-// 		IORequest* iorequest = InputIOqueue.front();
-// 		InputIOqueue.pop_front();
-// 		printf("%5d: %5d %5d %5d\n", iorequest->rid, iorequest->arrive_time, iorequest->start_time, iorequest->end_time);
-// 		waittime = iorequest->start_time - iorequest->arrive_time;
-// 		turnaroundtime = iorequest->end_time - iorequest->arrive_time;
-// 		if (waittime > max_waittime)
-// 		{
-// 			max_waittime = waittime;
-// 		}
-// 		total_waittime += waittime;
-// 		total_turnaround_time += turnaroundtime;
-// 	}
-// 	avg_turnaround = (double)total_turnaround_time / requestnum;
-// 	avg_waittime = (double)total_waittime / requestnum;
-	
-	
-// }

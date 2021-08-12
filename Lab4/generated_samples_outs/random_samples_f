@@ -1,0 +1,42 @@
+TRACE
+1:     0 add 26
+1:     0 issue 26 0
+14:     1 add 13
+24:     2 add 17
+25:     3 add 9
+27:     0 finish 26
+27:     2 issue 17 26
+36:     2 finish 12
+36:     1 issue 13 17
+38:     4 add 1
+40:     1 finish 26
+40:     3 issue 9 13
+44:     3 finish 19
+44:     4 issue 1 9
+52:     5 add 9
+52:     4 finish 14
+52:     5 issue 9 1
+54:     6 add 7
+60:     5 finish 8
+60:     6 issue 7 9
+62:     6 finish 8
+65:     7 add 14
+65:     7 issue 14 7
+72:     8 add 29
+72:     7 finish 7
+72:     8 issue 29 14
+76:     9 add 13
+87:     8 finish 15
+87:     9 issue 13 29
+103:     9 finish 27
+    0:     1     1    27
+    1:    14    36    40
+    2:    24    27    36
+    3:    25    40    44
+    4:    38    44    52
+    5:    52    52    60
+    6:    54    60    62
+    7:    65    65    72
+    8:    72    72    87
+    9:    76    87   103
+SUM: 103 99 16.20 6.30 22

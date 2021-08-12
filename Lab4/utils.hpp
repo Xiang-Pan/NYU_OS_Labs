@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-06-23 18:01:41
- * @LastEditTime: 2021-07-20 19:00:38
+ * @LastEditTime: 2021-08-12 18:54:45
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab4/utils.hpp
@@ -16,7 +16,7 @@ using namespace std;
 
 
 #define VNAME(name) (#name)
-#define debugging_enabled true 
+#define debugging_enabled false 
 #define debug(x) do { \
   if (debugging_enabled) { std::cerr << VNAME(x)<<":"<< x << std::endl; }\
 } while (0)

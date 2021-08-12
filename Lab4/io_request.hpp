@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-07-20 03:37:44
- * @LastEditTime: 2021-07-20 21:48:54
+ * @LastEditTime: 2021-08-12 19:38:13
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab4/io_request.hpp
@@ -17,13 +17,13 @@ using namespace std;
 class IORequest
 {
     public:
-        int rid_            = 0;
-        int arrive_time_    = 0;
-        int track_          = 0;
-        int start_time_     = -1;
-        int end_time_       = -1;
+        long rid_            = 0;
+        long arrive_time_    = 0;
+        long track_          = 0;
+        long start_time_     = -1;
+        long end_time_       = -1;
 
-        IORequest(int rid, int arrive_time, int track)
+        IORequest(long rid, long arrive_time, long track)
         {
             rid_ = rid;
             arrive_time_ = arrive_time;
