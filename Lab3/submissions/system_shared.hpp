@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-07-12 23:42:26
- * @LastEditTime: 2021-07-20 00:31:04
+ * @LastEditTime: 2021-07-27 19:05:40
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab3/system_shared.hpp
@@ -56,9 +56,7 @@ typedef struct frame_t
 	vpage_index_type vmp;
 	int pid;
 	unsigned mapped : 1;
-	// unsigned long long currenttime;
 	unsigned int age : 32;
-	// unsigned int age;
 	frame_t(): age(0x00000000)
 	{
 	}

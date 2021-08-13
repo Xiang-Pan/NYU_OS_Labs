@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-06-28 19:02:31
- * @LastEditTime: 2021-07-19 18:46:12
+ * @LastEditTime: 2021-07-27 19:04:17
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab3/process.hpp
@@ -182,71 +182,10 @@ class Process
             // umap_pte.referenced = false;
         }
 
-
-
-        // void umap()
-        // {
-        //     Process& process_rv = process_pool[pid_rv];
-        //     process_rv.unmaps++;
-        //     total
-        //     COST += COST_TABLE::UNMAPS;
-        // }
-
-
         void process_output()
         {
             // printf("PROC[%d]: U=%lu M=%lu I=%lu O=%lu FI=%lu FO=%luZ=%lu SV=%lu SP=%lu\n",pid_,pstats->unmaps, pstats->maps, pstats->ins, pstats->outs,pstats->fins,pstats->fouts, pstats->zeros,pstats->segv, pstats->segprot);
         }
 
-        // starting_virtual_page ending_virtual_page write_protected[0/1] filemapped[0/1];
 };
 
-
-
-
-// VMA output
-// std::ostream &operator<<( std::ostream &output, const pte_t &pte )
-// { 
-//     if (pte.present) 
-//     {
-//         output 
-//         << (pte.referenced ? "R" : "-")
-//         << (pte.modified ? "M" : "-")
-//         << (pte.paged_out ? "S " : "- ");
-//     }
-//     else 
-//     {
-//         output << (pte.paged_out ? "# " : "* ");
-//     }
-//     return output;
-// }
-
-// ostream& operator << (ostream& output, const vector<pte_t>& page_table) 
-// {
-//     for (size_t i = 0; i < page_table.size(); i++) 
-//     {
-//         const pte_t& pte = page_table[i];
-//         if (pte.present) 
-//         {
-//             output << i << ":" << pte;
-//         }
-//         else 
-//         {
-//             output << (pte.paged_out ? "# " : "* ");
-//         }
-//     }
-//     return output;
-// }
-
-
-// ostream& operator << (ostream& os, const vector<Frame>& frame_table) {
-//     for (size_t i = 0; i < frame_table.size(); i++) {
-//         const Frame& frame = frame_table[i];
-//         if (frame.mapped) {
-//             os << frame.pid_rv << ":" << frame.vpage_rv << " ";
-//         } else {
-//             os << "* ";
-//         }
-//     }
-//     return os;
-// }

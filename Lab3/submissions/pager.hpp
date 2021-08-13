@@ -1,7 +1,7 @@
 /*
  * @Author: Xiang Pan
  * @Date: 2021-06-28 19:40:16
- * @LastEditTime: 2021-07-20 02:15:33
+ * @LastEditTime: 2021-07-27 19:08:43
  * @LastEditors: Xiang Pan
  * @Description: 
  * @FilePath: /Lab3/pager.hpp
@@ -96,7 +96,6 @@ bool Pager::page_fault_handler(pte_t& pte, unsigned int vpage, Process& cur_proc
         
         pte.physical_frame = allocate_frame(vpage, cur_process);
         pte.present = true;
-        // 
         // debug(pte.paged_out);
         if(pte.paged_out) 
         {
@@ -190,8 +189,6 @@ frame_index_type AgingPager::select_victim_frame()
         f.age = f.age >> 1;
         if(p_process_manager_->get_process(f.pid).page_table_[f.vmp].referenced == true)
         {
-            // f.age = (f.age | 0x80000000);
-            // f.age   = 0x00000000;
             f.age |= 0x80000000;
             p_process_manager_->get_process(f.pid).page_table_[f.vmp].referenced = false;
         }

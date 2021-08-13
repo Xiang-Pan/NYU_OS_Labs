@@ -1,4 +1,13 @@
 #!/bin/bash
+###
+ # @Author: Xiang Pan
+ # @Date: 2021-07-27 21:58:37
+ # @LastEditTime: 2021-07-27 22:49:37
+ # @LastEditors: Xiang Pan
+ # @Description: 
+ # @FilePath: /Lab3/lab3_assign/scripts/gradeit.sh
+ # xiangpan@nyu.edu
+### 
 
 #example ./gradeit.sh dir1 dir2 logfile
 
@@ -6,7 +15,7 @@ DIR1=$1
 DIR2=$2
 LOG=${3:-${DIR2}/LOG.txt}
 
-USEDIFF=0
+USEDIFF=1
 DARGS=         # nothing
 DARGS="-q --speed-large-files"         # the big files are killing us --> out of memory / fork refused etc
 
