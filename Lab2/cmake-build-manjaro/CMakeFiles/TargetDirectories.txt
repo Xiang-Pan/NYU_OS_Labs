@@ -1,3 +1,0 @@
-/tmp/clion/cmake-build-manjaro/CMakeFiles/rebuild_cache.dir
-/tmp/clion/cmake-build-manjaro/CMakeFiles/edit_cache.dir
-/tmp/clion/cmake-build-manjaro/CMakeFiles/sched.dir

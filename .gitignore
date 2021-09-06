@@ -1,6 +1,7 @@
 # project related
 **/.ipynb_checkpoints
 **/cmake-build-debug
+**/cmake-build-manjaro
 **/build
 # MAXOS
 **/.DS_Store
