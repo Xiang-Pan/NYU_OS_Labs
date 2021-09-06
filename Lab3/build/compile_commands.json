@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/xiangpan/Labs/NYU_OS_Labs/Lab3/build",
-  "command": "/usr/bin/g++ -I/home/xiangpan/Labs/NYU_OS_Labs/Lab3/. -g -std=gnu++14 -o CMakeFiles/mmu.dir/main.cpp.o -c /home/xiangpan/Labs/NYU_OS_Labs/Lab3/main.cpp",
-  "file": "/home/xiangpan/Labs/NYU_OS_Labs/Lab3/main.cpp"
-}
-]

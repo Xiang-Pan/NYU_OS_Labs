@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/iosched.dir/main.cpp.o -o iosched 

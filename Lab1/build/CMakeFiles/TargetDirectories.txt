@@ -1,3 +1,0 @@
-/home/xiangpan/Labs/NYU_OS_Labs/Lab1/build/CMakeFiles/edit_cache.dir
-/home/xiangpan/Labs/NYU_OS_Labs/Lab1/build/CMakeFiles/rebuild_cache.dir
-/home/xiangpan/Labs/NYU_OS_Labs/Lab1/build/CMakeFiles/linker.dir
